@@ -255,7 +255,7 @@
     let interval;
     let isRunning = localStorage.getItem("isRunning") === "true";
     let gameStartTime = parseFloat(localStorage.getItem("gameStartTime")) || Date.now();
-    let crashPoint = parseFloat(localStorage.getItem("crashPoint")) || (Math.random() * 3 + 1).toFixed(2);
+    let crashPoint = parseFloat(localStorage.getItem("crashPoint")) || (Math.random() * (3.0 - 1.5) + 1.5).toFixed(2);
     let storedBalance = localStorage.getItem("balance");
     let balance = storedBalance !== null ? parseFloat(storedBalance) : 0.00;
 
@@ -284,26 +284,60 @@
     }
 
     function updateBalance() {
-        document.querySelector(".text-green-400").innerText = balance.toFixed(2) + " KES";
+        const gameBalanceEl = document.querySelector(".text-green-400");
+        if (gameBalanceEl) {
+            gameBalanceEl.innerText = balance.toFixed(2) + " KES";
+        }
+
+        const modalBalanceEl = document.getElementById("balance");
+        if (modalBalanceEl) {
+            modalBalanceEl.innerText = `KES ${balance.toFixed(2)}`;
+        }
+
         localStorage.setItem("balance", balance.toFixed(2));
+    }
+
+    function deposit(amount) {
+        if (amount <= 0 || isNaN(amount)) return;
+        balance += amount;
+        updateBalance();
+        saveState();
+        showModal(`Deposited ${amount.toFixed(2)} KES`, "Deposit");
+    }
+
+    function withdraw(amount) {
+        if (amount <= 0 || isNaN(amount)) return;
+        if (amount > balance) {
+            showModal("Withdrawal amount exceeds balance.", "Withdraw Failed");
+            return;
+        }
+        balance -= amount;
+        updateBalance();
+        saveState();
+        showModal(`Withdrew ${amount.toFixed(2)} KES`, "Withdraw");
     }
 
     function startGame() {
         isRunning = true;
         gameStartTime = Date.now();
-        crashPoint = (Math.random() * 3 + 1).toFixed(2);
+        crashPoint = (Math.random() * (3.0 - 1.5) + 1.5).toFixed(2);
         localStorage.setItem("crashPoint", crashPoint);
         localStorage.setItem("gameStartTime", gameStartTime);
         localStorage.setItem("isRunning", true);
 
-        interval = setInterval(() => {
-            const multiplier = updateMultiplier();
-            Object.keys(bets).forEach(id => {
-                if (bets[id].active) updateCashoutText(id);
-            });
+        document.getElementById("multiplierDisplay").innerText = "1.00x";
+        localStorage.setItem("multiplier", "1.00");
 
-            if (multiplier >= crashPoint) stopGame();
-        }, 50);
+        setTimeout(() => {
+            interval = setInterval(() => {
+                const multiplier = updateMultiplier();
+                Object.keys(bets).forEach(id => {
+                    if (bets[id].active) updateCashoutText(id);
+                });
+
+                if (multiplier >= crashPoint) stopGame();
+            }, 50);
+        }, 100);
     }
 
     function stopGame() {
@@ -325,7 +359,7 @@
 
         setTimeout(() => {
             startGame();
-        }, 3000);
+        }, 5000);
     }
 
     function placeBet(id) {
@@ -487,7 +521,87 @@
         });
     }
 
-    // Initialize
+    document.addEventListener("DOMContentLoaded", function () {
+        updateBalance();
+
+        document.querySelector(".text-green-400")?.addEventListener("click", () => {
+            document.getElementById("balanceModal").classList.remove("hidden");
+        });
+    });
+
+    function closeAllModals() {
+        document.querySelectorAll(".fixed.inset-0").forEach(modal => modal.classList.add("hidden"));
+    }
+
+    function openDepositMethod() {
+        closeAllModals();
+        document.getElementById("depositMethodModal").classList.remove("hidden");
+    }
+
+    function showPaymentInstructions(method) {
+        closeAllModals();
+        document.getElementById("paymentInstructionModal").classList.remove("hidden");
+
+        document.getElementById("payTitle").innerText = `Pay via ${method}`;
+        document.getElementById("payMethodLabel").innerText = `Go to ${method}`;
+        document.getElementById("payImage").src = method === 'M-PESA' ? 'mpesa.png' : 'visa.jpg';
+    }
+
+    function confirmDeposit() {
+        const code = document.getElementById('mpesaCode').value.trim();
+        const amount = parseFloat(document.getElementById('depositAmount').value);
+        if (isNaN(amount) || amount <= 0) {
+            return showModal("Invalid Amount", "Please enter a valid amount to deposit.");
+        }
+
+        if (code === '1234') {
+            deposit(amount);
+            closeAllModals();
+        } else {
+            showModal("Invalid Code", "The security code you entered is incorrect.");
+        }
+    }
+
+    function openWithdrawModal() {
+        closeAllModals();
+        document.getElementById("withdrawMethodModal").classList.remove("hidden");
+    }
+
+    function showWithdrawInstructions(method) {
+        closeAllModals();
+        document.getElementById("withdrawInstructionModal").classList.remove("hidden");
+
+        const label = method === 'M-PESA' ? 'To M-PESA' : 'To Airtel Money';
+        const imageSrc = method === 'M-PESA' ? 'mpesa.png' : 'visa.jpg';
+
+        document.getElementById("withdrawPayTitle").innerText = `Withdraw via ${method}`;
+        document.getElementById("withdrawPayMethodLabel").innerText = label;
+        document.getElementById("withdrawPayImage").src = imageSrc;
+    }
+
+    function confirmWithdraw() {
+        const code = document.getElementById('withdrawCode').value.trim();
+        const amount = parseFloat(document.getElementById('withdrawAmount').value);
+
+        if (isNaN(amount) || amount <= 0) {
+            return showModal("Invalid Amount", "Please enter a valid amount greater than 0.");
+        }
+
+        if (!code) {
+            return showModal("Missing Code", "Please enter the security code sent to your email.");
+        }
+
+        if (code !== '1234') {
+            return showModal("Invalid Code", "The security code you entered is incorrect.");
+        }
+
+        withdraw(amount);
+        closeAllModals();
+
+        document.getElementById('withdrawAmount').value = "";
+        document.getElementById('withdrawCode').value = "";
+    }
+
     updateBalance();
     restoreButtonStates();
     updateMultiplier();
@@ -506,121 +620,6 @@
     }
 </script>
 
-   <script>
-document.addEventListener("DOMContentLoaded", function () {
-    updateBalance(); // Always show the balance on page load
-
-    document.querySelector(".text-green-400")?.addEventListener("click", () => {
-        document.getElementById("balanceModal").classList.remove("hidden");
-    });
-});
-
-function updateBalance() {
-    const balance = parseFloat(localStorage.getItem("balance") || "0");
-    document.getElementById("balance").innerText = `KES ${balance.toFixed(2)}`;
-}
-
-function saveBalance(amount) {
-    localStorage.setItem("balance", amount.toFixed(2));
-}
-
-function showModal(title, message) {
-    document.getElementById("modalTitle").innerText = title;
-    document.getElementById("modalMessage").innerText = message;
-    document.getElementById("modalPopup").classList.remove("hidden");
-}
-
-function closeModal() {
-    document.getElementById("modalPopup").classList.add("hidden");
-}
-
-function closeAllModals() {
-    document.querySelectorAll(".fixed.inset-0").forEach(modal => modal.classList.add("hidden"));
-}
-
-function openDepositMethod() {
-    closeAllModals();
-    document.getElementById("depositMethodModal").classList.remove("hidden");
-}
-
-function showPaymentInstructions(method) {
-    closeAllModals();
-    document.getElementById("paymentInstructionModal").classList.remove("hidden");
-
-    document.getElementById("payTitle").innerText = `Pay via ${method}`;
-    document.getElementById("payMethodLabel").innerText = `Go to ${method}`;
-    document.getElementById("payImage").src = method === 'M-PESA' ? 'mpesa.png' : 'visa.jpg';
-}
-
-function confirmDeposit() {
-    const code = document.getElementById('mpesaCode').value.trim();
-    const amount = parseFloat(document.getElementById('depositAmount').value);
-    if (isNaN(amount) || amount <= 0) {
-        return showModal("Invalid Amount", "Please enter a valid amount to deposit.");
-    }
-
-    if (code === '1234') {
-        let current = parseFloat(localStorage.getItem("balance") || "0");
-        let newBalance = current + amount;
-        saveBalance(newBalance);
-        updateBalance();
-        closeAllModals();
-        showModal("Deposit Success", `KES ${amount.toFixed(2)} added.`);
-    } else {
-        showModal("Invalid Code", "The security code you entered is incorrect.");
-    }
-}
-
-function openWithdrawModal() {
-    closeAllModals();
-    document.getElementById("withdrawMethodModal").classList.remove("hidden");
-}
-
-function showWithdrawInstructions(method) {
-    closeAllModals();
-    document.getElementById("withdrawInstructionModal").classList.remove("hidden");
-
-    const label = method === 'M-PESA' ? 'To M-PESA' : 'To Airtel Money';
-    const imageSrc = method === 'M-PESA' ? 'mpesa.png' : 'visa.jpg';
-
-    document.getElementById("withdrawPayTitle").innerText = `Withdraw via ${method}`;
-    document.getElementById("withdrawPayMethodLabel").innerText = label;
-    document.getElementById("withdrawPayImage").src = imageSrc;
-}
-
-function confirmWithdraw() {
-    const code = document.getElementById('withdrawCode').value.trim();
-    const amount = parseFloat(document.getElementById('withdrawAmount').value);
-    let current = parseFloat(localStorage.getItem("balance") || "0");
-
-    if (isNaN(amount) || amount <= 0) {
-        return showModal("Invalid Amount", "Please enter a valid amount greater than 0.");
-    }
-
-    if (!code) {
-        return showModal("Missing Code", "Please enter the security code sent to your email.");
-    }
-
-    if (code !== '1234') {
-        return showModal("Invalid Code", "The security code you entered is incorrect.");
-    }
-
-    if (amount > current) {
-        return showModal("Insufficient Balance", "You do not have enough balance to withdraw that amount.");
-    }
-
-    // Success
-    let newBalance = current - amount;
-    saveBalance(newBalance);
-    updateBalance();
-    closeAllModals();
-    showModal("Withdraw Success", `KES ${amount.toFixed(2)} withdrawn.`);
-
-    // Clear fields
-    document.getElementById('withdrawAmount').value = "";
-    document.getElementById('withdrawCode').value = "";
-}
-</script>
 <script>
     const username = localStorage.getItem("username") || "Player";
     document.getElementById("userDisplay").innerText = `Welcome, ${username}!`;
