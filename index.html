@@ -227,7 +227,11 @@
       <img id="withdrawPayImage" src="mpesa.png" alt="Payment Logo" class="w-16 h-16 object-contain mr-4" />
       <div>
         <p class="text-lg font-semibold" id="withdrawPayMethodLabel">To M-PESA</p>
-        <p class="text-sm text-gray-600">Funds will be transferred shortly</p>
+       <p class="text-sm text-gray-600">
+  Funds will be transferred shortly to your Registered Number
+  <span id="registeredPhone">__________</span>
+</p>
+
       </div>
     </div>
 
@@ -530,81 +534,90 @@
     });
 
     function closeAllModals() {
-        document.querySelectorAll(".fixed.inset-0").forEach(modal => modal.classList.add("hidden"));
+    document.querySelectorAll(".fixed.inset-0").forEach(modal => modal.classList.add("hidden"));
+}
+
+function openDepositMethod() {
+    closeAllModals();
+    document.getElementById("depositMethodModal").classList.remove("hidden");
+}
+
+function showPaymentInstructions(method) {
+    closeAllModals();
+    document.getElementById("paymentInstructionModal").classList.remove("hidden");
+
+    document.getElementById("payTitle").innerText = `Pay via ${method}`;
+    document.getElementById("payMethodLabel").innerText = `Go to ${method}`;
+    document.getElementById("payImage").src = method === 'M-PESA' ? 'mpesa.png' : 'visa.jpg';
+}
+
+function confirmDeposit() {
+    const code = document.getElementById('mpesaCode').value.trim();
+    const amount = parseFloat(document.getElementById('depositAmount').value);
+
+    if (isNaN(amount) || amount <= 0) {
+        return showModal("Invalid Amount", "Please enter a valid amount to deposit.");
     }
 
-    function openDepositMethod() {
+    if (code === '1234') {
+        deposit(amount);
         closeAllModals();
-        document.getElementById("depositMethodModal").classList.remove("hidden");
+        showModal("Deposit Successful", `Your deposit of KES ${amount.toFixed(2)} was successful.`);
+    } else {
+        showModal("Invalid Code", "The security code you entered is incorrect.");
+    }
+}
+
+function openWithdrawModal() {
+    closeAllModals();
+    document.getElementById("withdrawMethodModal").classList.remove("hidden");
+}
+
+function showWithdrawInstructions(method) {
+    closeAllModals();
+    document.getElementById("withdrawInstructionModal").classList.remove("hidden");
+
+    const label = method === 'M-PESA' ? 'To M-PESA' : 'To Airtel Money';
+    const imageSrc = method === 'M-PESA' ? 'mpesa.png' : 'visa.jpg';
+
+    document.getElementById("withdrawPayTitle").innerText = `Withdraw via ${method}`;
+    document.getElementById("withdrawPayMethodLabel").innerText = label;
+    document.getElementById("withdrawPayImage").src = imageSrc;
+}
+
+function confirmWithdraw() {
+    const code = document.getElementById('withdrawCode').value.trim();
+    const amount = parseFloat(document.getElementById('withdrawAmount').value);
+
+    if (isNaN(amount) || amount <= 0) {
+        return showModal("Invalid Amount", "Please enter a valid amount greater than 0.");
     }
 
-    function showPaymentInstructions(method) {
-        closeAllModals();
-        document.getElementById("paymentInstructionModal").classList.remove("hidden");
-
-        document.getElementById("payTitle").innerText = `Pay via ${method}`;
-        document.getElementById("payMethodLabel").innerText = `Go to ${method}`;
-        document.getElementById("payImage").src = method === 'M-PESA' ? 'mpesa.png' : 'visa.jpg';
+    if (!code) {
+        return showModal("Missing Code", "Please enter the security code sent to your email.");
     }
 
-    function confirmDeposit() {
-        const code = document.getElementById('mpesaCode').value.trim();
-        const amount = parseFloat(document.getElementById('depositAmount').value);
-        if (isNaN(amount) || amount <= 0) {
-            return showModal("Invalid Amount", "Please enter a valid amount to deposit.");
-        }
-
-        if (code === '1234') {
-            deposit(amount);
-            closeAllModals();
-        } else {
-            showModal("Invalid Code", "The security code you entered is incorrect.");
-        }
+    if (code !== '1234') {
+        return showModal("Invalid Code", "The security code you entered is incorrect.");
     }
 
-    function openWithdrawModal() {
-        closeAllModals();
-        document.getElementById("withdrawMethodModal").classList.remove("hidden");
-    }
+    withdraw(amount);
+    closeAllModals();
+    showModal("Withdrawal Successful", `Your withdrawal of KES ${amount.toFixed(2)} was successful.`);
 
-    function showWithdrawInstructions(method) {
-        closeAllModals();
-        document.getElementById("withdrawInstructionModal").classList.remove("hidden");
+    document.getElementById('withdrawAmount').value = "";
+    document.getElementById('withdrawCode').value = "";
+}
 
-        const label = method === 'M-PESA' ? 'To M-PESA' : 'To Airtel Money';
-        const imageSrc = method === 'M-PESA' ? 'mpesa.png' : 'visa.jpg';
+function showModal(title = "Notice", message = "Something happened.") {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalMessage").innerText = message;
+    document.getElementById("modalPopup").classList.remove("hidden");
+}
 
-        document.getElementById("withdrawPayTitle").innerText = `Withdraw via ${method}`;
-        document.getElementById("withdrawPayMethodLabel").innerText = label;
-        document.getElementById("withdrawPayImage").src = imageSrc;
-    }
-
-    function confirmWithdraw() {
-        const code = document.getElementById('withdrawCode').value.trim();
-        const amount = parseFloat(document.getElementById('withdrawAmount').value);
-
-        if (isNaN(amount) || amount <= 0) {
-            return showModal("Invalid Amount", "Please enter a valid amount greater than 0.");
-        }
-
-        if (!code) {
-            return showModal("Missing Code", "Please enter the security code sent to your email.");
-        }
-
-        if (code !== '1234') {
-            return showModal("Invalid Code", "The security code you entered is incorrect.");
-        }
-
-        withdraw(amount);
-        closeAllModals();
-
-        document.getElementById('withdrawAmount').value = "";
-        document.getElementById('withdrawCode').value = "";
-    }
-
-    updateBalance();
-    restoreButtonStates();
-    updateMultiplier();
+updateBalance();
+restoreButtonStates();
+updateMultiplier();
 
     if (isRunning) {
         interval = setInterval(() => {
@@ -625,63 +638,75 @@
     document.getElementById("userDisplay").innerText = `Welcome, ${username}!`;
 </script>
  <script>
-    let isLogin = true;
+  let isLogin = true;
 
-    function toggleMode() {
-      isLogin = !isLogin;
-      document.getElementById("formTitle").innerText = isLogin ? "Login" : "Sign Up";
-      document.getElementById("toggleBtn").innerText = isLogin ? "Sign Up" : "Login";
-      document.getElementById("togglePrompt").innerText = isLogin ? "Don't have an account?" : "Already have an account?";
-      document.getElementById("nameField").classList.toggle("hidden", isLogin);
-      document.getElementById("mobileField").classList.toggle("hidden", isLogin);
-    }
+  function toggleMode() {
+    isLogin = !isLogin;
+    document.getElementById("formTitle").innerText = isLogin ? "Login" : "Sign Up";
+    document.getElementById("toggleBtn").innerText = isLogin ? "Sign Up" : "Login";
+    document.getElementById("togglePrompt").innerText = isLogin ? "Don't have an account?" : "Already have an account?";
+    document.getElementById("nameField").classList.toggle("hidden", isLogin);
+    document.getElementById("mobileField").classList.toggle("hidden", isLogin);
+  }
 
-    function handleAuth(e) {
-      e.preventDefault();
-      const email = document.getElementById("email").value.trim();
-      const password = document.getElementById("password").value.trim();
-      const fullName = document.getElementById("fullName").value.trim();
-      const mobileNumber = document.getElementById("mobileNumber").value.trim();
+  function handleAuth(e) {
+    e.preventDefault();
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const fullName = document.getElementById("fullName").value.trim();
+    const mobileNumber = document.getElementById("mobileNumber").value.trim();
 
-      let users = JSON.parse(localStorage.getItem("users") || "{}");
+    let users = JSON.parse(localStorage.getItem("users") || "{}");
 
-      if (isLogin) {
-        if (users[email] && users[email].password === password) {
-          localStorage.setItem("loggedIn", "true");
-          localStorage.setItem("username", users[email].name);
-          document.getElementById('authSection').classList.add('hidden');
-          document.getElementById('gameSection').classList.remove('hidden');
-          document.getElementById("usernameDisplay").innerText = users[email].name;
-        } else {
-          showModal("Invalid email or password", "Login Failed");
-        }
+    if (isLogin) {
+      if (users[email] && users[email].password === password) {
+        localStorage.setItem("loggedIn", "true");
+        localStorage.setItem("username", users[email].name);
+        localStorage.setItem("phoneNumber", users[email].mobile); // ✅ Save phone on login
+        document.getElementById('authSection').classList.add('hidden');
+        document.getElementById('gameSection').classList.remove('hidden');
+        document.getElementById("usernameDisplay").innerText = users[email].name;
+        updatePhoneDisplay(); // ✅ Show phone number
       } else {
-        if (!fullName || !mobileNumber) return showModal("Please complete all fields.", "Missing Information");
-        if (users[email]) return showModal("Email already registered.", "Signup Error");
-        users[email] = { password, name: fullName, mobile: mobileNumber };
-        localStorage.setItem("users", JSON.stringify(users));
-        showModal("Signup successful! Please login.", "Success");
-        toggleMode();
+        showModal("Invalid email or password", "Login Failed");
       }
+    } else {
+      if (!fullName || !mobileNumber) return showModal("Please complete all fields.", "Missing Information");
+      if (users[email]) return showModal("Email already registered.", "Signup Error");
+      users[email] = { password, name: fullName, mobile: mobileNumber };
+      localStorage.setItem("users", JSON.stringify(users));
+      showModal("Signup successful! Please login.", "Success");
+      toggleMode();
     }
+  }
 
-    function showModal(message, title = "Notice") {
-      document.getElementById("modalTitle").innerText = title;
-      document.getElementById("modalMessage").innerText = message;
-      document.getElementById("modalPopup").classList.remove("hidden");
+  function showModal(message, title = "Notice") {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalMessage").innerText = message;
+    document.getElementById("modalPopup").classList.remove("hidden");
+  }
+
+  function closeModal() {
+    document.getElementById("modalPopup").classList.add("hidden");
+  }
+
+  function updatePhoneDisplay() {
+    const phone = localStorage.getItem("phoneNumber") || "__________";
+    const phoneSpan = document.getElementById("registeredPhone");
+    if (phoneSpan) {
+      phoneSpan.innerText = phone;
     }
+  }
 
-    function closeModal() {
-      document.getElementById("modalPopup").classList.add("hidden");
-    }
+  window.onload = () => {
+    document.getElementById('authSection').classList.remove('hidden');
+    document.getElementById('gameSection').classList.add('hidden');
+    localStorage.removeItem("loggedIn");
 
-    window.onload = () => {
-      // Always require fresh login
-      document.getElementById('authSection').classList.remove('hidden');
-      document.getElementById('gameSection').classList.add('hidden');
-      localStorage.removeItem("loggedIn");
-    };
-  </script>
+    updatePhoneDisplay(); // ✅ Display phone even on reload if logged in
+  };
+</script>
+
 <script>
   let lastBalance = null;
 
@@ -692,7 +717,7 @@
         lastBalance = storedBalance;
         document.getElementById("balance").innerText = `KES ${storedBalance}`;
       }
-    }, 1000); // updates every 1 second
+    }, 1000);
   }
 
   window.onload = () => {
@@ -703,13 +728,15 @@
       document.getElementById('authSection').classList.add('hidden');
       document.getElementById('gameSection').classList.remove('hidden');
       document.getElementById('usernameDisplay').innerText = username;
-      smoothBalanceUpdate(); // start balance loop when game loads
+      smoothBalanceUpdate();
+      updatePhoneDisplay(); // ✅ call here also
     } else {
       document.getElementById('authSection').classList.remove('hidden');
       document.getElementById('gameSection').classList.add('hidden');
     }
   };
 </script>
+
 <script>
   if ('serviceWorker' in navigator) {
     navigator.serviceWorker.register('service-worker.js')
