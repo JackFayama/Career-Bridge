@@ -85,13 +85,37 @@
         </div>
       </div>
     </div>
-    <!-- Game Area -->
-    <div class="w-full max-w-5xl bg-gray-800 mt-4 p-4 rounded-xl flex flex-col items-center">
-        <div class="bg-green-600 w-full text-center py-1 rounded-t-md font-bold"></div>
-        <div class="bg-black w-full flex flex-col justify-center items-center py-12 rounded-b-md">
-            <div id="multiplierDisplay" class="text-6xl font-bold text-purple-400">1.00x</div>
-        </div>
+<!-- Game Area -->
+<div class="w-full max-w-5xl bg-gray-800 mt-4 p-4 rounded-xl flex flex-col items-center relative">
+
+    <!-- COUNTDOWN CIRCLE (Centered in the Game Area) -->
+    <div id="countdownCircle"
+         style="width:100px;height:100px;
+                border-radius:50%;border:6px solid #4ade80;
+                display:flex;align-items:center;justify-content:center;
+                font-weight:bold;font-size:24px;
+                position:absolute;top:50%;left:50%;
+                transform:translate(-50%, -50%);
+                z-index:1000;display:none;
+                background-color:#1f2937; color:white;">
+        5
     </div>
+
+  <audio id="gameBeat" src="e5587b80-2096-41ea-afba-acdc67aa1ab5.mp3" loop></audio>
+
+
+    <!-- Top Green Bar -->
+    <div class="bg-green-600 w-full text-center py-1 rounded-t-md font-bold">
+        <!-- Optional header content here -->
+    </div>
+
+    <!-- Multiplier Display Area -->
+    <div class="bg-black w-full flex flex-col justify-center items-center py-12 rounded-b-md">
+        <div id="multiplierDisplay" class="text-6xl font-bold text-purple-400">1.00x</div>
+    </div>
+
+</div>
+
 
     <!-- Betting Area -->
     <div class="w-full max-w-5xl grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
@@ -254,83 +278,145 @@
   </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
-    let interval;
-    let isRunning = localStorage.getItem("isRunning") === "true";
-    let gameStartTime = parseFloat(localStorage.getItem("gameStartTime")) || Date.now();
-    let crashPoint = parseFloat(localStorage.getItem("crashPoint")) || (Math.random() * (3.0 - 1.5) + 1.5).toFixed(2);
-    let storedBalance = localStorage.getItem("balance");
-    let balance = storedBalance !== null ? parseFloat(storedBalance) : 0.00;
+let interval;
+let isRunning = localStorage.getItem("isRunning") === "true";
+let gameStartTime = parseFloat(localStorage.getItem("gameStartTime")) || Date.now();
 
-    let bets = JSON.parse(localStorage.getItem("bets")) || {
-        bet1: { active: false, placed: false, queued: false, amount: 0, auto: false },
-        bet2: { active: false, placed: false, queued: false, amount: 0, auto: false }
-    };
+function generateCrashPoint() {
+    const r = Math.random();
 
-    function saveState() {
-        localStorage.setItem("balance", balance.toFixed(2));
-        localStorage.setItem("isRunning", isRunning);
-        localStorage.setItem("crashPoint", crashPoint);
-        localStorage.setItem("bets", JSON.stringify(bets));
+    if (r < 0.80) {
+        // 80% chance: crash between 1.1x and 5x
+        return parseFloat((Math.random() * (5.0 - 1.1) + 1.1).toFixed(2));
+    } else if (r < 0.95) {
+        // 15% chance: crash between 5x and 20x
+        return parseFloat((Math.random() * (20.0 - 5.0) + 5.0).toFixed(2));
+    } else {
+        // 5% chance: crash between 20x and 60x
+        return parseFloat((Math.random() * (60.0 - 20.0) + 20.0).toFixed(2));
+    }
+}
+
+let crashPoint = parseFloat(localStorage.getItem("crashPoint")) || generateCrashPoint();
+
+let storedBalance = localStorage.getItem("balance");
+let balance = storedBalance !== null ? parseFloat(storedBalance) : 0.00;
+
+let bets = JSON.parse(localStorage.getItem("bets")) || {
+    bet1: { active: false, placed: false, queued: false, amount: 0, auto: false },
+    bet2: { active: false, placed: false, queued: false, amount: 0, auto: false }
+};
+
+const countdownCircle = document.getElementById("countdownCircle");
+const gameBeat = document.getElementById("gameBeat");
+
+function saveState() {
+    localStorage.setItem("balance", balance.toFixed(2));
+    localStorage.setItem("isRunning", isRunning);
+    localStorage.setItem("crashPoint", crashPoint);
+    localStorage.setItem("bets", JSON.stringify(bets));
+}
+
+function getCurrentMultiplier() {
+    const elapsed = (Date.now() - gameStartTime) / 1000;
+    return 1 + elapsed * 0.2;
+}
+
+function updateMultiplier() {
+    const multiplier = getCurrentMultiplier();
+    document.getElementById("multiplierDisplay").innerText = multiplier.toFixed(2) + "x";
+    localStorage.setItem("multiplier", multiplier.toFixed(2));
+    return multiplier;
+}
+
+function updateBalance() {
+    const gameBalanceEl = document.querySelector(".text-green-400");
+    if (gameBalanceEl) {
+        gameBalanceEl.innerText = balance.toFixed(2) + " KES";
     }
 
-    function getCurrentMultiplier() {
-        const elapsed = (Date.now() - gameStartTime) / 1000;
-        return 1 + elapsed * 0.2;
+    const modalBalanceEl = document.getElementById("balance");
+    if (modalBalanceEl) {
+        modalBalanceEl.innerText = `KES ${balance.toFixed(2)}`;
     }
 
-    function updateMultiplier() {
-        const multiplier = getCurrentMultiplier();
-        document.getElementById("multiplierDisplay").innerText = multiplier.toFixed(2) + "x";
-        localStorage.setItem("multiplier", multiplier.toFixed(2));
-        return multiplier;
-    }
+    localStorage.setItem("balance", balance.toFixed(2));
+}
 
-    function updateBalance() {
-        const gameBalanceEl = document.querySelector(".text-green-400");
-        if (gameBalanceEl) {
-            gameBalanceEl.innerText = balance.toFixed(2) + " KES";
+function deposit(amount) {
+    if (amount <= 0 || isNaN(amount)) return;
+    balance += amount;
+    updateBalance();
+    saveState();
+    showModal(`Deposited ${amount.toFixed(2)} KES`, "Deposit");
+}
+
+function withdraw(amount) {
+    if (amount <= 0 || isNaN(amount)) return;
+    if (amount > balance) {
+        showModal("Withdrawal amount exceeds balance.", "Withdraw Failed");
+        return;
+    }
+    balance -= amount;
+    updateBalance();
+    saveState();
+    showModal(`Withdrew ${amount.toFixed(2)} KES`, "Withdraw");
+}
+
+function showCountdown(duration = 5) {
+    let timeLeft = duration;
+    countdownCircle.innerText = timeLeft;
+    countdownCircle.style.display = "flex";
+
+    const countdownTimer = setInterval(() => {
+        timeLeft--;
+        countdownCircle.innerText = timeLeft;
+        if (timeLeft <= 0) {
+            clearInterval(countdownTimer);
+            countdownCircle.style.display = "none";
         }
+    }, 1000);
+}
 
-        const modalBalanceEl = document.getElementById("balance");
-        if (modalBalanceEl) {
-            modalBalanceEl.innerText = `KES ${balance.toFixed(2)}`;
-        }
+function startGame() {
+    let countdownStart = parseFloat(localStorage.getItem("countdownStart")) || Date.now();
+    let countdownDuration = 5000;
+    let countdownRemaining = countdownDuration - (Date.now() - countdownStart);
 
-        localStorage.setItem("balance", balance.toFixed(2));
-    }
+    if (countdownRemaining <= 0) countdownRemaining = 0;
 
-    function deposit(amount) {
-        if (amount <= 0 || isNaN(amount)) return;
-        balance += amount;
-        updateBalance();
-        saveState();
-        showModal(`Deposited ${amount.toFixed(2)} KES`, "Deposit");
-    }
+    showCountdown(Math.ceil(countdownRemaining / 1000));
 
-    function withdraw(amount) {
-        if (amount <= 0 || isNaN(amount)) return;
-        if (amount > balance) {
-            showModal("Withdrawal amount exceeds balance.", "Withdraw Failed");
-            return;
-        }
-        balance -= amount;
-        updateBalance();
-        saveState();
-        showModal(`Withdrew ${amount.toFixed(2)} KES`, "Withdraw");
-    }
-
-    function startGame() {
+    setTimeout(() => {
         isRunning = true;
         gameStartTime = Date.now();
-        crashPoint = (Math.random() * (3.0 - 1.5) + 1.5).toFixed(2);
+
+        // NEW: Generate more realistic crash range like Betika (from <1.05 to over 100x)
+        const rand = Math.random();
+        if (rand < 0.02) {
+            crashPoint = (Math.random() * 1 + 100).toFixed(2); // 100x–101x (rare)
+        } else if (rand < 0.10) {
+            crashPoint = (Math.random() * 10 + 10).toFixed(2); // 10x–20x (occasional)
+        } else if (rand < 0.30) {
+            crashPoint = (Math.random() * 5 + 2).toFixed(2); // 2x–7x
+        } else if (rand < 0.70) {
+            crashPoint = (Math.random() * 1.5 + 1.05).toFixed(2); // 1.05x–2.5x (most common)
+        } else {
+            crashPoint = (Math.random() * 0.5 + 1.01).toFixed(2); // 1.01x–1.5x (sometimes low)
+        }
+
         localStorage.setItem("crashPoint", crashPoint);
         localStorage.setItem("gameStartTime", gameStartTime);
         localStorage.setItem("isRunning", true);
 
         document.getElementById("multiplierDisplay").innerText = "1.00x";
         localStorage.setItem("multiplier", "1.00");
+
+        // Start beat
+        const gameBeat = document.getElementById("gameBeat");
+        gameBeat.currentTime = 0;
+        gameBeat.play().catch(() => {});
 
         setTimeout(() => {
             interval = setInterval(() => {
@@ -342,206 +428,214 @@
                 if (multiplier >= crashPoint) stopGame();
             }, 50);
         }, 100);
-    }
+    }, countdownRemaining);
 
-    function stopGame() {
-        clearInterval(interval);
-        isRunning = false;
-        localStorage.setItem("isRunning", false);
+    localStorage.setItem("countdownStart", Date.now());
+}
 
-        Object.keys(bets).forEach(id => {
-            if (bets[id].active) {
-                bets[id].active = false;
-                setButtonToBet(id);
-            }
-            if (bets[id].queued || bets[id].auto) {
-                placeNextRound(id);
-            }
-        });
+function stopGame() {
+    clearInterval(interval);
+    isRunning = false;
+    localStorage.setItem("isRunning", false);
 
-        saveState();
+    // Stop beat
+    const gameBeat = document.getElementById("gameBeat");
+    gameBeat.pause();
+    gameBeat.currentTime = 0;
 
-        setTimeout(() => {
-            startGame();
-        }, 5000);
-    }
-
-    function placeBet(id) {
-        const amount = parseFloat(document.getElementById(id).value);
-
-        if (isNaN(amount) || amount <= 0) {
-            showModal("Please enter a valid bet amount.", "Invalid Amount");
-            return;
+    Object.keys(bets).forEach(id => {
+        if (bets[id].active) {
+            bets[id].active = false;
+            setButtonToBet(id);
         }
-
-        if (amount > balance) {
-            showModal("Low balance. Please top up.", "Insufficient Balance");
-            return;
+        if (bets[id].queued || bets[id].auto) {
+            placeNextRound(id);
         }
-
-        if (bets[id].active || bets[id].placed) return;
-
-        if (isRunning) {
-            bets[id].queued = true;
-            bets[id].amount = amount;
-            showModal(`Bet queued for next round: ${amount} KES`, "Bet Queued");
-            saveState();
-            return;
-        }
-
-        balance -= amount;
-        updateBalance();
-
-        bets[id].placed = true;
-        bets[id].active = true;
-        bets[id].amount = amount;
-
-        setButtonToCashout(id);
-        saveState();
-    }
-
-    function setButtonToCashout(id) {
-        const btn = document.querySelector(`#${id}`).parentElement.parentElement.querySelector("button.w-full");
-        btn.innerText = "Cashout";
-        btn.classList.remove("bg-green-500");
-        btn.classList.add("bg-yellow-400");
-        btn.onclick = () => cashOut(id);
-
-        if (!btn.querySelector(".live-win")) {
-            const liveSpan = document.createElement("span");
-            liveSpan.className = "live-win ml-2 font-bold";
-            liveSpan.style.color = "black";
-            btn.appendChild(liveSpan);
-        }
-    }
-
-    function updateCashoutText(id) {
-        const multiplier = getCurrentMultiplier();
-        const btn = document.querySelector(`#${id}`).parentElement.parentElement.querySelector("button.w-full");
-        const liveSpan = btn.querySelector(".live-win");
-        if (liveSpan && bets[id].active) {
-            const win = (bets[id].amount * multiplier).toFixed(2);
-            liveSpan.textContent = `KES ${win}`;
-        }
-    }
-
-    function setButtonToBet(id) {
-        const inputValue = parseFloat(document.getElementById(id).value) || 0;
-        const btn = document.querySelector(`#${id}`).parentElement.parentElement.querySelector("button.w-full");
-
-        btn.innerHTML = `Bet <span id="${id}Amount">${inputValue.toFixed(2)}</span> KES`;
-        btn.classList.remove("bg-yellow-400");
-        btn.classList.add("bg-green-500");
-        btn.onclick = () => placeBet(id);
-
-        bets[id].placed = false;
-        bets[id].active = false;
-        bets[id].amount = 0;
-
-        saveState();
-    }
-
-    function cashOut(id) {
-        if (!bets[id].active) return;
-
-        let multiplier = getCurrentMultiplier();
-        let win;
-
-        if (!isRunning) {
-            multiplier = 1.00;
-            win = bets[id].amount.toFixed(2);
-            showModal(`Cashed out early. Returned original ${win} KES (1.00x)`, "Early Cashout");
-        } else {
-            win = (bets[id].amount * multiplier).toFixed(2);
-            showModal(`Cashed out ${win} KES at ${multiplier.toFixed(2)}x`, "Cashout");
-        }
-
-        balance += parseFloat(win);
-        updateBalance();
-
-        bets[id].active = false;
-        setButtonToBet(id);
-        saveState();
-    }
-
-    function placeNextRound(id) {
-        const amount = bets[id].amount;
-
-        if (amount > balance) {
-            showModal("Low balance. Please top up.", "Insufficient Balance");
-            bets[id].queued = false;
-            return;
-        }
-
-        balance -= amount;
-        updateBalance();
-
-        bets[id].queued = false;
-        bets[id].placed = true;
-        bets[id].active = true;
-        setButtonToCashout(id);
-        saveState();
-    }
-
-    function updateBetButtonLabel(id) {
-        const inputValue = parseFloat(document.getElementById(id).value) || 0;
-        const btn = document.querySelector(`#${id}`).parentElement.parentElement.querySelector("button.w-full");
-
-        if (!bets[id].active && !bets[id].placed) {
-            btn.innerHTML = `Bet <span id="${id}Amount">${inputValue.toFixed(2)}</span> KES`;
-        }
-    }
-
-    function setBet(id, amount) {
-        const input = document.getElementById(id);
-        input.value = amount.toFixed(2);
-        updateBetButtonLabel(id);
-    }
-
-    function increaseBet(id) {
-        const input = document.getElementById(id);
-        let current = parseFloat(input.value) || 0;
-        current += 10;
-        input.value = current.toFixed(2);
-        updateBetButtonLabel(id);
-    }
-
-    function decreaseBet(id) {
-        const input = document.getElementById(id);
-        let current = parseFloat(input.value) || 0;
-        current = Math.max(current - 10, 0);
-        input.value = current.toFixed(2);
-        updateBetButtonLabel(id);
-    }
-
-    function showModal(message = "Something happened.", title = "Notification") {
-        document.getElementById("modalTitle").innerText = title;
-        document.getElementById("modalMessage").innerText = message;
-        document.getElementById("modalPopup").classList.remove("hidden");
-    }
-
-    function closeModal() {
-        document.getElementById("modalPopup").classList.add("hidden");
-    }
-
-    function restoreButtonStates() {
-        Object.keys(bets).forEach(id => {
-            if (bets[id].active) {
-                setButtonToCashout(id);
-            } else {
-                setButtonToBet(id);
-            }
-            updateBetButtonLabel(id);
-        });
-    }
-
-    document.addEventListener("DOMContentLoaded", function () {
-        updateBalance();
-
-        document.querySelector(".text-green-400")?.addEventListener("click", () => {
-            document.getElementById("balanceModal").classList.remove("hidden");
-        });
     });
+
+    saveState();
+
+    setTimeout(() => {
+        localStorage.setItem("countdownStart", Date.now()); // reset countdown timestamp
+        startGame();
+    }, 5000);
+}
+function placeBet(id) {
+    const amount = parseFloat(document.getElementById(id).value);
+
+    if (isNaN(amount) || amount <= 0) {
+        showModal("Please enter a valid bet amount.", "Invalid Amount");
+        return;
+    }
+
+    if (amount > balance) {
+        showModal("Low balance. Please top up.", "Insufficient Balance");
+        return;
+    }
+
+    if (bets[id].active || bets[id].placed) return;
+
+    if (isRunning) {
+        bets[id].queued = true;
+        bets[id].amount = amount;
+        showModal(`Bet queued for next round: ${amount} KES`, "Bet Queued");
+        saveState();
+        return;
+    }
+
+    balance -= amount;
+    updateBalance();
+
+    bets[id].placed = true;
+    bets[id].active = true;
+    bets[id].amount = amount;
+
+    setButtonToCashout(id);
+    saveState();
+}
+
+function setButtonToCashout(id) {
+    const btn = document.querySelector(`#${id}`).parentElement.parentElement.querySelector("button.w-full");
+    btn.innerText = "Cashout";
+    btn.classList.remove("bg-green-500");
+    btn.classList.add("bg-yellow-400");
+    btn.onclick = () => cashOut(id);
+
+    if (!btn.querySelector(".live-win")) {
+        const liveSpan = document.createElement("span");
+        liveSpan.className = "live-win ml-2 font-bold";
+        liveSpan.style.color = "black";
+        btn.appendChild(liveSpan);
+    }
+}
+
+function updateCashoutText(id) {
+    const multiplier = getCurrentMultiplier();
+    const btn = document.querySelector(`#${id}`).parentElement.parentElement.querySelector("button.w-full");
+    const liveSpan = btn.querySelector(".live-win");
+    if (liveSpan && bets[id].active) {
+        const win = (bets[id].amount * multiplier).toFixed(2);
+        liveSpan.textContent = `KES ${win}`;
+    }
+}
+
+function setButtonToBet(id) {
+    const inputValue = parseFloat(document.getElementById(id).value) || 0;
+    const btn = document.querySelector(`#${id}`).parentElement.parentElement.querySelector("button.w-full");
+
+    btn.innerHTML = `Bet <span id="${id}Amount">${inputValue.toFixed(2)}</span> KES`;
+    btn.classList.remove("bg-yellow-400");
+    btn.classList.add("bg-green-500");
+    btn.onclick = () => placeBet(id);
+
+    bets[id].placed = false;
+    bets[id].active = false;
+    bets[id].amount = 0;
+
+    saveState();
+}
+
+function cashOut(id) {
+    if (!bets[id].active) return;
+
+    let multiplier = getCurrentMultiplier();
+    let win;
+
+    if (!isRunning) {
+        multiplier = 1.00;
+        win = bets[id].amount.toFixed(2);
+        showModal(`Cashed out early. Returned original ${win} KES (1.00x)`, "Early Cashout");
+    } else {
+        win = (bets[id].amount * multiplier).toFixed(2);
+        showModal(`Cashed out ${win} KES at ${multiplier.toFixed(2)}x`, "Cashout");
+    }
+
+    balance += parseFloat(win);
+    updateBalance();
+
+    bets[id].active = false;
+    setButtonToBet(id);
+    saveState();
+}
+
+function placeNextRound(id) {
+    const amount = bets[id].amount;
+
+    if (amount > balance) {
+        showModal("Low balance. Please top up.", "Insufficient Balance");
+        bets[id].queued = false;
+        return;
+    }
+
+    balance -= amount;
+    updateBalance();
+
+    bets[id].queued = false;
+    bets[id].placed = true;
+    bets[id].active = true;
+    setButtonToCashout(id);
+    saveState();
+}
+
+function updateBetButtonLabel(id) {
+    const inputValue = parseFloat(document.getElementById(id).value) || 0;
+    const btn = document.querySelector(`#${id}`).parentElement.parentElement.querySelector("button.w-full");
+
+    if (!bets[id].active && !bets[id].placed) {
+        btn.innerHTML = `Bet <span id="${id}Amount">${inputValue.toFixed(2)}</span> KES`;
+    }
+}
+
+function setBet(id, amount) {
+    const input = document.getElementById(id);
+    input.value = amount.toFixed(2);
+    updateBetButtonLabel(id);
+}
+
+function increaseBet(id) {
+    const input = document.getElementById(id);
+    let current = parseFloat(input.value) || 0;
+    current += 10;
+    input.value = current.toFixed(2);
+    updateBetButtonLabel(id);
+}
+
+function decreaseBet(id) {
+    const input = document.getElementById(id);
+    let current = parseFloat(input.value) || 0;
+    current = Math.max(current - 10, 0);
+    input.value = current.toFixed(2);
+    updateBetButtonLabel(id);
+}
+
+function showModal(message = "Something happened.", title = "Notification") {
+    document.getElementById("modalTitle").innerText = title;
+    document.getElementById("modalMessage").innerText = message;
+    document.getElementById("modalPopup").classList.remove("hidden");
+}
+
+function closeModal() {
+    document.getElementById("modalPopup").classList.add("hidden");
+}
+
+function restoreButtonStates() {
+    Object.keys(bets).forEach(id => {
+        if (bets[id].active) {
+            setButtonToCashout(id);
+        } else {
+            setButtonToBet(id);
+        }
+        updateBetButtonLabel(id);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    updateBalance();
+
+    document.querySelector(".text-green-400")?.addEventListener("click", () => {
+        document.getElementById("balanceModal").classList.remove("hidden");
+    });
+});
 
     function closeAllModals() {
     document.querySelectorAll(".fixed.inset-0").forEach(modal => modal.classList.add("hidden"));
