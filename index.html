@@ -444,10 +444,20 @@
     function cashOut(id) {
         if (!bets[id].active) return;
 
-        const win = (bets[id].amount * getCurrentMultiplier()).toFixed(2);
+        let multiplier = getCurrentMultiplier();
+        let win;
+
+        if (!isRunning) {
+            multiplier = 1.00;
+            win = bets[id].amount.toFixed(2);
+            showModal(`Cashed out early. Returned original ${win} KES (1.00x)`, "Early Cashout");
+        } else {
+            win = (bets[id].amount * multiplier).toFixed(2);
+            showModal(`Cashed out ${win} KES at ${multiplier.toFixed(2)}x`, "Cashout");
+        }
+
         balance += parseFloat(win);
         updateBalance();
-        showModal(`Cashed out ${win} KES at ${getCurrentMultiplier().toFixed(2)}x`, "Cashout");
 
         bets[id].active = false;
         setButtonToBet(id);
