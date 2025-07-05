@@ -1,86 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cbridge - Global Career Opportunities</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-        }
-        
-        .line-clamp-2 {
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-        
-        .line-clamp-3 {
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cbridge - Global Career Opportunities</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    }
 
-        .hidden {
-            display: none;
-        }
+    .line-clamp-2 {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
-        .modal-backdrop {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: rgba(0, 0, 0, 0.5);
-            z-index: 50;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
+    .line-clamp-3 {
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
 
-        .modal-content {
-            max-height: 90vh;
-            overflow-y: auto;
-        }
+    .hidden {
+      display: none;
+    }
 
-        /* Hide scrollbars */
-        ::-webkit-scrollbar {
-            display: none;
-        }
-        
-        * {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
-    </style>
+    .modal-backdrop {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 50;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    /* Hide scrollbars */
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    * {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
 </head>
 <body class="min-h-screen bg-gray-50">
-    <!-- Professional Header -->
-    <header class="bg-white shadow-lg">
-        <div class="max-w-6xl mx-auto px-6 py-4">
-            <div class="flex justify-between items-center px-4 py-3 w-[99%] mx-auto bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-b-lg shadow-lg">
-  <div class="text-lg font-semibold">Your Left Content</div>
-  <div class="flex items-center gap-4">
-    <span class="text-sm">Right Side</span>
-    <button class="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-medium">Action</button>
-  </div>
-</div>
 
-                <div class="flex justify-between items-center">
-                    <div class="flex items-center">
-                        <h1 class="text-2xl font-bold text-white flex items-center">
-                            <svg class="w-8 h-8 mr-2 text-yellow-300" fill="currentColor" viewBox="0 0 24 24">
-                                <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
-                            </svg>
-                            Cbridge
-                        </h1>
-                    </div>
+  <!-- Top Gradient Header -->
+  <header class="bg-white shadow-lg">
+    <div class="w-[98%] mx-auto bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-b-lg shadow-lg px-6 py-4">
+      <div class="flex justify-between items-center">
+        <!-- Left: Logo + Brand -->
+        <div class="flex items-center">
+          <svg class="w-8 h-8 mr-2 text-yellow-300" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+          </svg>
+          <h1 class="text-2xl font-bold">Cbridge</h1>
+        </div>
+
+        <!-- Right: Action/Info -->
+        <div class="flex items-center gap-4">
+          <span class="text-sm">Global Careers</span>
+          <button class="bg-white text-blue-600 px-3 py-1 rounded-full text-sm font-medium hover:bg-gray-100 transition">Sign In</button>
+        </div>
+      </div>
+    </div>
                     
                     <div class="flex items-center space-x-4">
                         <div id="user-section" class="hidden">
