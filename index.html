@@ -3,606 +3,283 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CareerBridge - Global Job Opportunities</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
-</head>
-<body>
-    <!-- Header -->
-    <header class="header">
-        <div class="container">
-            <div class="nav-brand">
-                <h1>CareerBridge</h1>
-                <span>Global Opportunities</span>
-            </div>
-            
-            <!-- Country Filter -->
-            <nav class="country-nav">
-                <button class="country-btn active" data-country="all">All</button>
-                <button class="country-btn" data-country="USA">USA</button>
-                <button class="country-btn" data-country="UK">UK</button>
-                <button class="country-btn" data-country="Australia">Australia</button>
-                <button class="country-btn" data-country="UAE">UAE</button>
-            </nav>
-            
-            <!-- User Section -->
-            <div class="user-section">
-                <div id="guest-section">
-                    <button id="login-btn" class="btn-secondary">Login</button>
-                    <button id="register-btn" class="btn-primary">Register</button>
-                </div>
-                <div id="user-section" class="user-dropdown" style="display: none;">
-                    <button class="user-name" id="user-name"></button>
-                    <div class="dropdown-menu">
-                        <a href="#" id="profile-link">Profile</a>
-                        <a href="#" id="records-link">My Applications</a>
-                        <a href="#" id="logout-link">Logout</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="main-content">
-        <div class="container">
-            <div class="search-section">
-                <h2>Find Your Next Opportunity</h2>
-                <p>Discover global job opportunities across multiple countries</p>
-            </div>
-            
-            <!-- Job Listings -->
-            <div class="jobs-grid" id="jobs-grid">
-                <!-- Jobs will be dynamically inserted here -->
-            </div>
-        </div>
-    </main>
-
-    <!-- Registration Modal -->
-    <div id="registration-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Create Your Account</h2>
-            <form id="registration-form">
-                <div class="form-group">
-                    <label for="reg-fullname">Full Name *</label>
-                    <input type="text" id="reg-fullname" required>
-                </div>
-                <div class="form-group">
-                    <label for="reg-email">Email *</label>
-                    <input type="email" id="reg-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="reg-password">Password *</label>
-                    <input type="password" id="reg-password" required>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="reg-gender">Gender *</label>
-                        <select id="reg-gender" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="reg-dob">Date of Birth *</label>
-                        <input type="date" id="reg-dob" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="reg-nationality">Nationality *</label>
-                    <select id="reg-nationality" required>
-                        <option value="">Select Nationality</option>
-                        <option value="Afghan">Afghan</option>
-                        <option value="Albanian">Albanian</option>
-                        <option value="Algerian">Algerian</option>
-                        <option value="American">American</option>
-                        <option value="Andorran">Andorran</option>
-                        <option value="Angolan">Angolan</option>
-                        <option value="Argentinian">Argentinian</option>
-                        <option value="Armenian">Armenian</option>
-                        <option value="Australian">Australian</option>
-                        <option value="Austrian">Austrian</option>
-                        <option value="Azerbaijani">Azerbaijani</option>
-                        <option value="Bahamian">Bahamian</option>
-                        <option value="Bahraini">Bahraini</option>
-                        <option value="Bangladeshi">Bangladeshi</option>
-                        <option value="Barbadian">Barbadian</option>
-                        <option value="Belarusian">Belarusian</option>
-                        <option value="Belgian">Belgian</option>
-                        <option value="Belizean">Belizean</option>
-                        <option value="Beninese">Beninese</option>
-                        <option value="Bhutanese">Bhutanese</option>
-                        <option value="Bolivian">Bolivian</option>
-                        <option value="Bosnian">Bosnian</option>
-                        <option value="Botswanan">Botswanan</option>
-                        <option value="Brazilian">Brazilian</option>
-                        <option value="British">British</option>
-                        <option value="Bruneian">Bruneian</option>
-                        <option value="Bulgarian">Bulgarian</option>
-                        <option value="Burkinabe">Burkinabe</option>
-                        <option value="Burmese">Burmese</option>
-                        <option value="Burundian">Burundian</option>
-                        <option value="Cambodian">Cambodian</option>
-                        <option value="Cameroonian">Cameroonian</option>
-                        <option value="Canadian">Canadian</option>
-                        <option value="Cape Verdean">Cape Verdean</option>
-                        <option value="Central African">Central African</option>
-                        <option value="Chadian">Chadian</option>
-                        <option value="Chilean">Chilean</option>
-                        <option value="Chinese">Chinese</option>
-                        <option value="Colombian">Colombian</option>
-                        <option value="Comoran">Comoran</option>
-                        <option value="Congolese">Congolese</option>
-                        <option value="Costa Rican">Costa Rican</option>
-                        <option value="Croatian">Croatian</option>
-                        <option value="Cuban">Cuban</option>
-                        <option value="Cypriot">Cypriot</option>
-                        <option value="Czech">Czech</option>
-                        <option value="Danish">Danish</option>
-                        <option value="Djiboutian">Djiboutian</option>
-                        <option value="Dominican">Dominican</option>
-                        <option value="Dutch">Dutch</option>
-                        <option value="East Timorese">East Timorese</option>
-                        <option value="Ecuadorean">Ecuadorean</option>
-                        <option value="Egyptian">Egyptian</option>
-                        <option value="Emirian">Emirian</option>
-                        <option value="Equatorial Guinean">Equatorial Guinean</option>
-                        <option value="Eritrean">Eritrean</option>
-                        <option value="Estonian">Estonian</option>
-                        <option value="Ethiopian">Ethiopian</option>
-                        <option value="Fijian">Fijian</option>
-                        <option value="Filipino">Filipino</option>
-                        <option value="Finnish">Finnish</option>
-                        <option value="French">French</option>
-                        <option value="Gabonese">Gabonese</option>
-                        <option value="Gambian">Gambian</option>
-                        <option value="Georgian">Georgian</option>
-                        <option value="German">German</option>
-                        <option value="Ghanaian">Ghanaian</option>
-                        <option value="Greek">Greek</option>
-                        <option value="Grenadian">Grenadian</option>
-                        <option value="Guatemalan">Guatemalan</option>
-                        <option value="Guinea-Bissauan">Guinea-Bissauan</option>
-                        <option value="Guinean">Guinean</option>
-                        <option value="Guyanese">Guyanese</option>
-                        <option value="Haitian">Haitian</option>
-                        <option value="Herzegovinian">Herzegovinian</option>
-                        <option value="Honduran">Honduran</option>
-                        <option value="Hungarian">Hungarian</option>
-                        <option value="Icelander">Icelander</option>
-                        <option value="Indian">Indian</option>
-                        <option value="Indonesian">Indonesian</option>
-                        <option value="Iranian">Iranian</option>
-                        <option value="Iraqi">Iraqi</option>
-                        <option value="Irish">Irish</option>
-                        <option value="Israeli">Israeli</option>
-                        <option value="Italian">Italian</option>
-                        <option value="Ivorian">Ivorian</option>
-                        <option value="Jamaican">Jamaican</option>
-                        <option value="Japanese">Japanese</option>
-                        <option value="Jordanian">Jordanian</option>
-                        <option value="Kazakhstani">Kazakhstani</option>
-                        <option value="Kenyan">Kenyan</option>
-                        <option value="Kittian and Nevisian">Kittian and Nevisian</option>
-                        <option value="Kuwaiti">Kuwaiti</option>
-                        <option value="Kyrgyz">Kyrgyz</option>
-                        <option value="Laotian">Laotian</option>
-                        <option value="Latvian">Latvian</option>
-                        <option value="Lebanese">Lebanese</option>
-                        <option value="Liberian">Liberian</option>
-                        <option value="Libyan">Libyan</option>
-                        <option value="Liechtensteiner">Liechtensteiner</option>
-                        <option value="Lithuanian">Lithuanian</option>
-                        <option value="Luxembourgish">Luxembourgish</option>
-                        <option value="Macedonian">Macedonian</option>
-                        <option value="Malagasy">Malagasy</option>
-                        <option value="Malawian">Malawian</option>
-                        <option value="Malaysian">Malaysian</option>
-                        <option value="Maldivan">Maldivan</option>
-                        <option value="Malian">Malian</option>
-                        <option value="Maltese">Maltese</option>
-                        <option value="Marshallese">Marshallese</option>
-                        <option value="Mauritanian">Mauritanian</option>
-                        <option value="Mauritian">Mauritian</option>
-                        <option value="Mexican">Mexican</option>
-                        <option value="Micronesian">Micronesian</option>
-                        <option value="Moldovan">Moldovan</option>
-                        <option value="Monacan">Monacan</option>
-                        <option value="Mongolian">Mongolian</option>
-                        <option value="Moroccan">Moroccan</option>
-                        <option value="Mosotho">Mosotho</option>
-                        <option value="Motswana">Motswana</option>
-                        <option value="Mozambican">Mozambican</option>
-                        <option value="Namibian">Namibian</option>
-                        <option value="Nauruan">Nauruan</option>
-                        <option value="Nepalese">Nepalese</option>
-                        <option value="New Zealander">New Zealander</option>
-                        <option value="Ni-Vanuatu">Ni-Vanuatu</option>
-                        <option value="Nicaraguan">Nicaraguan</option>
-                        <option value="Nigerian">Nigerian</option>
-                        <option value="Nigerien">Nigerien</option>
-                        <option value="North Korean">North Korean</option>
-                        <option value="Northern Irish">Northern Irish</option>
-                        <option value="Norwegian">Norwegian</option>
-                        <option value="Omani">Omani</option>
-                        <option value="Pakistani">Pakistani</option>
-                        <option value="Palauan">Palauan</option>
-                        <option value="Panamanian">Panamanian</option>
-                        <option value="Papua New Guinean">Papua New Guinean</option>
-                        <option value="Paraguayan">Paraguayan</option>
-                        <option value="Peruvian">Peruvian</option>
-                        <option value="Polish">Polish</option>
-                        <option value="Portuguese">Portuguese</option>
-                        <option value="Qatari">Qatari</option>
-                        <option value="Romanian">Romanian</option>
-                        <option value="Russian">Russian</option>
-                        <option value="Rwandan">Rwandan</option>
-                        <option value="Saint Lucian">Saint Lucian</option>
-                        <option value="Salvadoran">Salvadoran</option>
-                        <option value="Samoan">Samoan</option>
-                        <option value="San Marinese">San Marinese</option>
-                        <option value="Sao Tomean">Sao Tomean</option>
-                        <option value="Saudi">Saudi</option>
-                        <option value="Scottish">Scottish</option>
-                        <option value="Senegalese">Senegalese</option>
-                        <option value="Serbian">Serbian</option>
-                        <option value="Seychellois">Seychellois</option>
-                        <option value="Sierra Leonean">Sierra Leonean</option>
-                        <option value="Singaporean">Singaporean</option>
-                        <option value="Slovakian">Slovakian</option>
-                        <option value="Slovenian">Slovenian</option>
-                        <option value="Solomon Islander">Solomon Islander</option>
-                        <option value="Somali">Somali</option>
-                        <option value="South African">South African</option>
-                        <option value="South Korean">South Korean</option>
-                        <option value="Spanish">Spanish</option>
-                        <option value="Sri Lankan">Sri Lankan</option>
-                        <option value="Sudanese">Sudanese</option>
-                        <option value="Surinamer">Surinamer</option>
-                        <option value="Swazi">Swazi</option>
-                        <option value="Swedish">Swedish</option>
-                        <option value="Swiss">Swiss</option>
-                        <option value="Syrian">Syrian</option>
-                        <option value="Taiwanese">Taiwanese</option>
-                        <option value="Tajik">Tajik</option>
-                        <option value="Tanzanian">Tanzanian</option>
-                        <option value="Thai">Thai</option>
-                        <option value="Togolese">Togolese</option>
-                        <option value="Tongan">Tongan</option>
-                        <option value="Trinidadian or Tobagonian">Trinidadian or Tobagonian</option>
-                        <option value="Tunisian">Tunisian</option>
-                        <option value="Turkish">Turkish</option>
-                        <option value="Tuvaluan">Tuvaluan</option>
-                        <option value="Ugandan">Ugandan</option>
-                        <option value="Ukrainian">Ukrainian</option>
-                        <option value="Uruguayan">Uruguayan</option>
-                        <option value="Uzbekistani">Uzbekistani</option>
-                        <option value="Venezuelan">Venezuelan</option>
-                        <option value="Vietnamese">Vietnamese</option>
-                        <option value="Welsh">Welsh</option>
-                        <option value="Yemenite">Yemenite</option>
-                        <option value="Zambian">Zambian</option>
-                        <option value="Zimbabwean">Zimbabwean</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-primary">Create Account</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Login Modal -->
-    <div id="login-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>Welcome Back</h2>
-            <form id="login-form">
-                <div class="form-group">
-                    <label for="login-email">Email</label>
-                    <input type="email" id="login-email" required>
-                </div>
-                <div class="form-group">
-                    <label for="login-password">Password</label>
-                    <input type="password" id="login-password" required>
-                </div>
-                <button type="submit" class="btn-primary">Login</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Job Application Modal -->
-    <div id="application-modal" class="modal">
-        <div class="modal-content application-modal">
-            <span class="close">&times;</span>
-            <h2>Apply for Position</h2>
-            <div class="job-info" id="job-info">
-                <!-- Job details will be filled here -->
-            </div>
-            <form id="application-form">
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="app-firstname">First Name *</label>
-                        <input type="text" id="app-firstname" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="app-middlename">Middle Name</label>
-                        <input type="text" id="app-middlename">
-                    </div>
-                    <div class="form-group">
-                        <label for="app-lastname">Last Name *</label>
-                        <input type="text" id="app-lastname" required>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="app-dob">Date of Birth *</label>
-                        <input type="date" id="app-dob" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="app-gender">Gender *</label>
-                        <select id="app-gender" required>
-                            <option value="">Select Gender</option>
-                            <option value="Male">Male</option>
-                            <option value="Female">Female</option>
-                            <option value="Other">Other</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="app-id">ID/Passport Number *</label>
-                        <input type="text" id="app-id" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="app-nationality">Nationality *</label>
-                        <input type="text" id="app-nationality" required>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="app-medical">Medical Conditions</label>
-                    <textarea id="app-medical" rows="2" placeholder="Any medical conditions or allergies (optional)"></textarea>
-                </div>
-                <div class="form-group" id="education-group" style="display: none;">
-                    <label for="app-education">Level of Education *</label>
-                    <select id="app-education">
-                        <option value="">Select Education Level</option>
-                        <option value="High School">High School</option>
-                        <option value="Associate Degree">Associate Degree</option>
-                        <option value="Bachelor's Degree">Bachelor's Degree</option>
-                        <option value="Master's Degree">Master's Degree</option>
-                        <option value="Doctorate">Doctorate</option>
-                        <option value="Professional Certification">Professional Certification</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label for="app-motivation">Application Message *</label>
-                    <textarea id="app-motivation" rows="4" placeholder="Tell us why you're interested in this position..." required></textarea>
-                </div>
-                <button type="submit" class="btn-primary">Submit Application</button>
-            </form>
-        </div>
-    </div>
-
-    <!-- Profile Modal -->
-    <div id="profile-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>My Profile</h2>
-            <div id="profile-info">
-                <!-- Profile information will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Records Modal -->
-    <div id="records-modal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <h2>My Applications</h2>
-            <div id="records-info">
-                <!-- Application records will be loaded here -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Toast Notification -->
-    <div id="toast" class="toast"></div>
-
+    <title>CareerBridge - Global Job Portal</title>
+    <meta name="description" content="Find your dream job abroad. CareerBridge connects skilled and unskilled workers from Africa to opportunities in USA, UK, Australia, and UAE.">
+    <meta name="keywords" content="jobs, careers, global employment, visa sponsorship, skilled workers, unskilled workers, Africa, USA, UK, Australia, UAE">
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- EmailJS -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            font-family: 'Poppins', 'Helvetica Neue', Helvetica, Arial, sans-serif;
         }
 
         body {
-            font-family: 'Poppins', 'Helvetica Neue', sans-serif;
-            background-color: #ffffff;
-            color: #333;
+            background-color: #f9fafb;
+            color: #374151;
             line-height: 1.6;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header */
+        /* Header Styles */
         .header {
-            background: linear-gradient(135deg, #1e3a8a, #3730a3);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             padding: 1rem 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
 
-        .header .container {
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
         }
 
-        .nav-brand h1 {
+        .logo {
             font-size: 1.8rem;
             font-weight: 700;
-            margin-bottom: 0.2rem;
+            background: linear-gradient(45deg, #fff, #e0e7ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .nav-brand span {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-
-        .country-nav {
+        .nav-menu {
             display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
         }
 
-        .country-btn {
+        .nav-btn {
             background: rgba(255,255,255,0.1);
             border: 2px solid rgba(255,255,255,0.2);
             color: white;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.5rem;
             border-radius: 25px;
             cursor: pointer;
             transition: all 0.3s ease;
             font-weight: 500;
+            backdrop-filter: blur(10px);
         }
 
-        .country-btn:hover,
-        .country-btn.active {
+        .nav-btn:hover {
             background: rgba(255,255,255,0.2);
             border-color: rgba(255,255,255,0.4);
             transform: translateY(-2px);
         }
 
-        .user-section {
-            display: flex;
-            gap: 0.5rem;
-        }
-
-        .user-dropdown {
+        .user-menu {
             position: relative;
         }
 
-        .user-name {
-            background: rgba(255,255,255,0.1);
-            border: none;
-            color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 500;
-        }
-
-        .dropdown-menu {
+        .user-dropdown {
             position: absolute;
             top: 100%;
             right: 0;
             background: white;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            padding: 0.5rem 0;
-            min-width: 150px;
-            display: none;
-            z-index: 1000;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            min-width: 200px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+            transform: translateY(-10px);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
         }
 
-        .dropdown-menu a {
+        .user-dropdown.show {
+            transform: translateY(0);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .dropdown-item {
             display: block;
-            padding: 0.5rem 1rem;
-            color: #333;
+            width: 100%;
+            padding: 0.75rem 1rem;
+            color: #374151;
             text-decoration: none;
-            transition: background 0.2s;
-        }
-
-        .dropdown-menu a:hover {
-            background: #f3f4f6;
-        }
-
-        .user-dropdown:hover .dropdown-menu {
-            display: block;
-        }
-
-        /* Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-            color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
+            background: none;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            transition: background-color 0.2s;
+            text-align: left;
         }
 
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        .dropdown-item:hover {
+            background-color: #f3f4f6;
         }
 
-        .btn-secondary {
-            background: transparent;
-            color: white;
-            border: 2px solid rgba(255,255,255,0.3);
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-            border-color: rgba(255,255,255,0.5);
+        .dropdown-item.logout {
+            color: #dc2626;
+            border-top: 1px solid #e5e7eb;
         }
 
         /* Main Content */
         .main-content {
-            padding: 3rem 0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
         }
 
-        .search-section {
-            text-align: center;
-            margin-bottom: 3rem;
+        /* Promotional Banner */
+        .promo-banner {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .search-section h2 {
-            font-size: 2.5rem;
-            font-weight: 600;
-            color: #1e3a8a;
+        .promo-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 100%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        .promo-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .promo-text h2 {
+            font-size: 2rem;
+            font-weight: 700;
             margin-bottom: 0.5rem;
         }
 
-        .search-section p {
+        .promo-text p {
+            opacity: 0.9;
             font-size: 1.1rem;
-            color: #6b7280;
         }
 
-        /* Jobs Grid */
-        .jobs-grid {
+        .promo-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .promo-btn {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .promo-btn.primary {
+            background: white;
+            color: #667eea;
+        }
+
+        .promo-btn.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .promo-btn.secondary {
+            background: transparent;
+            color: white;
+            border: 2px solid white;
+        }
+
+        .promo-btn.secondary:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        /* Country Filters */
+        .country-filters {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            border: 2px solid #e5e7eb;
+            background: white;
+            color: #374151;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover {
+            border-color: #667eea;
+            transform: translateY(-1px);
+        }
+
+        .filter-btn.active {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        /* Job Grid */
+        .job-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
         }
 
+        /* Job Cards */
         .job-card {
             background: white;
-            border-radius: 12px;
+            border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
             transition: all 0.3s ease;
-            border: 1px solid #e5e7eb;
+            border: 1px solid #f3f4f6;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .job-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
         }
 
         .job-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
         }
 
         .job-header {
@@ -615,132 +292,185 @@
         .job-title {
             font-size: 1.25rem;
             font-weight: 600;
-            color: #1e3a8a;
+            color: #1f2937;
             margin-bottom: 0.5rem;
+            line-height: 1.3;
         }
 
-        .job-company {
-            font-weight: 500;
-            color: #6b7280;
-        }
-
-        .job-location {
-            background: #eff6ff;
-            color: #1e40af;
+        .experience-badge {
             padding: 0.25rem 0.75rem;
             border-radius: 20px;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .experience-badge.entry {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .experience-badge.mid {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .experience-badge.senior {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         .job-description {
-            color: #4b5563;
+            color: #6b7280;
             margin-bottom: 1rem;
-            line-height: 1.6;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
         }
 
         .job-details {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 0.5rem;
             margin-bottom: 1rem;
-            font-size: 0.875rem;
         }
 
         .job-detail {
             display: flex;
-            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+            color: #4b5563;
+            font-size: 0.9rem;
         }
 
-        .job-detail strong {
-            color: #374151;
+        .job-detail svg {
+            width: 16px;
+            height: 16px;
+            margin-right: 0.5rem;
+            color: #667eea;
         }
 
         .job-requirements {
-            background: #f9fafb;
-            padding: 0.75rem;
-            border-radius: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
             margin-bottom: 1rem;
-            font-size: 0.875rem;
         }
 
-        .job-requirements strong {
-            color: #1e3a8a;
-            display: block;
-            margin-bottom: 0.25rem;
+        .requirement-tag {
+            background: #f3f4f6;
+            color: #374151;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
         }
 
-        .job-dates {
+        .job-footer {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+        }
+
+        .posted-date {
+            color: #9ca3af;
             font-size: 0.75rem;
-            color: #6b7280;
-            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .posted-date svg {
+            width: 14px;
+            height: 14px;
+            margin-right: 0.25rem;
         }
 
         .apply-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #10b981, #059669);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 0.75rem;
+            padding: 0.5rem 1rem;
             border-radius: 8px;
+            font-weight: 500;
             cursor: pointer;
-            font-weight: 600;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .apply-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
         /* Modal Styles */
-        .modal {
-            display: none;
+        .modal-overlay {
             position: fixed;
-            z-index: 1000;
-            left: 0;
             top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
             backdrop-filter: blur(5px);
         }
 
-        .modal-content {
-            background-color: white;
-            margin: 2% auto;
-            padding: 2rem;
-            border-radius: 12px;
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: white;
+            border-radius: 16px;
+            max-width: 500px;
             width: 90%;
-            max-width: 600px;
             max-height: 90vh;
             overflow-y: auto;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+            position: relative;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s ease;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
         }
 
-        .application-modal {
-            max-width: 700px;
+        .modal-overlay.show .modal {
+            transform: scale(1) translateY(0);
         }
 
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid #e5e7eb;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #9ca3af;
             cursor: pointer;
-            margin-top: -10px;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: all 0.2s ease;
         }
 
-        .close:hover {
-            color: #000;
+        .close-btn:hover {
+            background: #f3f4f6;
+            color: #374151;
         }
 
-        .modal h2 {
-            color: #1e3a8a;
-            margin-bottom: 1.5rem;
-            font-size: 1.5rem;
+        .modal-content {
+            padding: 1.5rem;
         }
 
         /* Form Styles */
@@ -748,610 +478,1248 @@
             margin-bottom: 1rem;
         }
 
-        .form-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .form-row .form-group {
-            margin-bottom: 0;
-        }
-
-        label {
+        .form-label {
             display: block;
             margin-bottom: 0.5rem;
             font-weight: 500;
             color: #374151;
         }
 
-        input, select, textarea {
+        .form-input, .form-select, .form-textarea {
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #e5e7eb;
             border-radius: 8px;
-            font-size: 1rem;
-            transition: border-color 0.3s ease;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            background: white;
         }
 
-        input:focus, select:focus, textarea:focus {
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
         }
 
-        .job-info {
-            background: #f8fafc;
-            padding: 1rem;
+        .form-input:read-only {
+            background: #f9fafb;
+            color: #6b7280;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 0.75rem;
             border-radius: 8px;
-            margin-bottom: 1.5rem;
-            border-left: 4px solid #3b82f6;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
         }
 
-        .job-info h3 {
-            color: #1e3a8a;
+        .submit-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        /* Success Modal */
+        .success-icon {
+            width: 64px;
+            height: 64px;
+            background: #dcfce7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .success-icon svg {
+            width: 32px;
+            height: 32px;
+            color: #16a34a;
+        }
+
+        .success-title {
+            text-align: center;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #1f2937;
             margin-bottom: 0.5rem;
         }
 
-        .job-info p {
+        .success-message {
+            text-align: center;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Profile and Records Pages */
+        .page-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .page-card {
+            background: white;
+            border-radius: 16px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        .page-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1.5rem;
+        }
+
+        .profile-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .profile-field {
+            margin-bottom: 1rem;
+        }
+
+        .profile-field label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 500;
             color: #6b7280;
             margin-bottom: 0.25rem;
         }
 
-        /* Profile & Records */
-        .profile-item, .record-item {
-            padding: 1rem;
+        .profile-field p {
+            color: #1f2937;
+            font-weight: 500;
+        }
+
+        /* Application Records */
+        .application-card {
             border: 1px solid #e5e7eb;
-            border-radius: 8px;
+            border-radius: 12px;
+            padding: 1rem;
             margin-bottom: 1rem;
+            transition: all 0.3s ease;
         }
 
-        .record-item {
-            background: #f9fafb;
+        .application-card:hover {
+            border-color: #667eea;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.1);
         }
 
-        .record-date {
-            font-size: 0.875rem;
+        .application-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .application-title {
+            font-weight: 600;
+            color: #1f2937;
+        }
+
+        .application-company {
             color: #6b7280;
-            margin-top: 0.5rem;
+            font-size: 0.9rem;
         }
 
-        /* Toast */
-        .toast {
+        .application-date {
+            font-size: 0.8rem;
+            color: #9ca3af;
+        }
+
+        .email-status {
+            display: flex;
+            align-items: center;
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+        }
+
+        .email-status svg {
+            width: 12px;
+            height: 12px;
+            margin-right: 0.25rem;
+        }
+
+        .email-status.success {
+            color: #16a34a;
+        }
+
+        .email-status.error {
+            color: #dc2626;
+        }
+
+        /* Popup Notifications */
+        .popup-notification {
             position: fixed;
-            bottom: 20px;
+            top: 20px;
             right: 20px;
-            background: #10b981;
-            color: white;
+            background: white;
+            border-radius: 12px;
             padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            z-index: 1001;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            border-left: 4px solid #667eea;
+            z-index: 3000;
+            transform: translateX(400px);
+            transition: all 0.3s ease;
+            max-width: 300px;
         }
 
-        .toast.error {
-            background: #ef4444;
-        }
-
-        .toast.show {
+        .popup-notification.show {
             transform: translateX(0);
+        }
+
+        .popup-notification.success {
+            border-left-color: #16a34a;
+        }
+
+        .popup-notification.error {
+            border-left-color: #dc2626;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .header .container {
+            .header-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-menu {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            .promo-content {
                 flex-direction: column;
                 text-align: center;
+                gap: 1rem;
             }
 
-            .country-nav {
-                justify-content: center;
+            .promo-actions {
+                flex-direction: column;
+                width: 100%;
             }
 
-            .search-section h2 {
-                font-size: 2rem;
-            }
-
-            .jobs-grid {
+            .job-grid {
                 grid-template-columns: 1fr;
             }
 
-            .form-row {
-                grid-template-columns: 1fr;
-                gap: 0;
-            }
-
-            .form-row .form-group {
-                margin-bottom: 1rem;
-            }
-
-            .job-details {
-                grid-template-columns: 1fr;
-            }
-
-            .modal-content {
+            .modal {
                 width: 95%;
-                margin: 5% auto;
-                padding: 1.5rem;
+                margin: 1rem;
+            }
+
+            .profile-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .application-header {
+                flex-direction: column;
+                gap: 0.5rem;
             }
         }
 
-        @media (max-width: 480px) {
-            .container {
-                padding: 0 15px;
-            }
+        /* Hidden class */
+        .hidden {
+            display: none !important;
+        }
 
-            .job-card {
-                padding: 1rem;
-            }
+        /* Loading states */
+        .loading {
+            opacity: 0.6;
+            pointer-events: none;
+        }
 
-            .modal-content {
-                padding: 1rem;
+        /* Animations */
+        @keyframes slideInUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
             }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .slide-in {
+            animation: slideInUp 0.5s ease-out;
         }
     </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">CareerBridge</div>
+            <nav class="nav-menu">
+                <button class="nav-btn" onclick="setCurrentPage('home')">Jobs</button>
+                <div id="userSection">
+                    <button class="nav-btn" onclick="showAuthModal()">Sign In</button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Home Page -->
+        <div id="homePage">
+            <!-- Promotional Banner -->
+            <div class="promo-banner">
+                <div class="promo-content">
+                    <div class="promo-text">
+                        <h2>Global Career Opportunities</h2>
+                        <p>Connect with premium employers worldwide and advance your career</p>
+                    </div>
+                    <div class="promo-actions">
+                        <button class="promo-btn primary" onclick="scrollToJobs()">Explore Opportunities</button>
+                        <button class="promo-btn secondary" onclick="showFeaturedJobs()">Premium Positions</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Country Filters -->
+            <div class="country-filters">
+                <button class="filter-btn active" onclick="filterByCountry('All')">All Countries</button>
+                <button class="filter-btn" onclick="filterByCountry('USA')">🇺🇸 USA</button>
+                <button class="filter-btn" onclick="filterByCountry('UK')">🇬🇧 UK</button>
+                <button class="filter-btn" onclick="filterByCountry('Australia')">🇦🇺 Australia</button>
+                <button class="filter-btn" onclick="filterByCountry('UAE')">🇦🇪 UAE</button>
+            </div>
+
+            <!-- Job Grid -->
+            <div class="job-grid" id="jobGrid">
+                <!-- Jobs will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Profile Page -->
+        <div id="profilePage" class="hidden">
+            <div class="page-container">
+                <div class="page-card">
+                    <h2 class="page-title">Profile Information</h2>
+                    <div id="profileContent">
+                        <!-- Profile content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Records Page -->
+        <div id="recordsPage" class="hidden">
+            <div class="page-container">
+                <div class="page-card">
+                    <h2 class="page-title">Application Records</h2>
+                    <div id="recordsContent">
+                        <!-- Records content will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Authentication Modal -->
+    <div id="authModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Account</h2>
+                <button class="close-btn" onclick="hideAuthModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="authForm">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email (Optional)</label>
+                        <input type="email" name="email" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Date of Birth</label>
+                        <input type="date" name="dateOfBirth" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <select name="gender" class="form-select" required>
+                            <option value="">Select Gender</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nationality</label>
+                        <select name="nationality" class="form-select" required>
+                            <option value="">Select Nationality</option>
+                            <!-- Countries will be populated by JavaScript -->
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ID/Passport Number</label>
+                        <input type="text" name="idPassport" class="form-input" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Password</label>
+                        <input type="password" name="password" class="form-input" required>
+                    </div>
+                    <button type="submit" class="submit-btn">Create Account & Apply</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Application Modal -->
+    <div id="applicationModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title" id="applicationTitle">Apply for Job</h2>
+                <button class="close-btn" onclick="hideApplicationModal()">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-content">
+                <form id="applicationForm">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" name="name" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email</label>
+                        <input type="email" name="email" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Nationality</label>
+                        <input type="text" name="nationality" class="form-input" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">ID/Passport</label>
+                        <input type="text" name="idPassport" class="form-input" readonly>
+                    </div>
+                    <div class="form-group hidden" id="educationGroup">
+                        <label class="form-label">Education Level</label>
+                        <select name="educationLevel" class="form-select">
+                            <option value="">Select Education Level</option>
+                            <option value="High School">High School</option>
+                            <option value="Associate Degree">Associate Degree</option>
+                            <option value="Bachelor's Degree">Bachelor's Degree</option>
+                            <option value="Master's Degree">Master's Degree</option>
+                            <option value="PhD">PhD</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Personal Message</label>
+                        <textarea name="personalMessage" class="form-textarea" placeholder="Tell us why you're interested in this position..."></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn" id="submitApplicationBtn">Submit Application</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="modal-overlay">
+        <div class="modal">
+            <div class="modal-content" style="text-align: center;">
+                <div class="success-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="20,6 9,17 4,12"></polyline>
+                    </svg>
+                </div>
+                <h2 class="success-title">Application Submitted Successfully!</h2>
+                <p class="success-message">Your application has been sent to the employer. They will contact you if you're selected for an interview.</p>
+                <div id="emailStatusMessage"></div>
+                <button class="submit-btn" onclick="hideSuccessModal()">Continue</button>
+            </div>
+        </div>
+    </div>
 
     <script>
+        // EmailJS Configuration
+        const EMAILJS_SERVICE_ID = 'service_t8vherg';
+        const EMAILJS_TEMPLATE_ID = 'template_sqgf423';
+        const EMAILJS_PUBLIC_KEY = 'WNEjs_ksvkD2yiWv1';
+
         // Initialize EmailJS
-        emailjs.init('WNEjs_ksvkD2yiWv1');
-
-        // Generate 100 jobs for each country (400 total)
-        const generateJobs = () => {
-            const countries = ['USA', 'UK', 'Australia', 'UAE'];
-            const allJobs = [];
-            let jobId = 1;
-
-            // Job templates for variety
-            const jobTemplates = {
-                USA: [
-                    {title: "Farm Worker", description: "Assist in farm operations including planting, harvesting, and general agricultural duties.", company: "AgroWorld", payment: "$15 per hour", hoursPerWeek: 40, workingHours: "7:00 AM - 4:00 PM", requirements: "Physically fit, team player", experience: "None required", type: "unskilled", posted: "2025-07-02", needed: "2025-12-26"},
-{title: "Hotel Housekeeper", description: "Maintain cleanliness and presentation of hotel rooms and common areas.", company: "Grand Hotel USA", payment: "$13 per hour", hoursPerWeek: 35, workingHours: "8:00 AM - 4:00 PM", requirements: "Attention to detail, reliability", experience: "None required", type: "unskilled", posted: "2025-07-01", needed: "2026-02-08"},
-{title: "Construction Helper", description: "Assist skilled construction workers with various building tasks.", company: "BuildCorp USA", payment: "$18 per hour", hoursPerWeek: 40, workingHours: "6:00 AM - 3:00 PM", requirements: "Physical fitness, safety awareness", experience: "None required", type: "unskilled", posted: "2025-05-12", needed: "2026-02-03"},
-{title: "Warehouse Worker", description: "Handle inventory, packing, and shipping in busy warehouse environment.", company: "LogiTech USA", payment: "$16 per hour", hoursPerWeek: 40, workingHours: "8:00 AM - 5:00 PM", requirements: "Ability to lift 50lbs, attention to detail", experience: "None required", type: "unskilled", posted: "2025-01-12", needed: "2025-05-21"},
-{title: "Registered Nurse", description: "Provide comprehensive patient care in hospital setting.", company: "MedCenter USA", payment: "$6500 per month", hoursPerWeek: 40, workingHours: "6:00 AM - 6:00 PM", requirements: "Nursing degree, valid license", experience: "2+ years required", type: "skilled", posted: "2025-01-13", needed: "2025-08-21"},
-{title: "Software Developer", description: "Develop web applications using modern technologies.", company: "TechFlow USA", payment: "$7500 per month", hoursPerWeek: 40, workingHours: "9:00 AM - 6:00 PM", requirements: "Computer Science degree, JavaScript proficiency", experience: "3+ years required", type: "skilled", posted: "2025-05-07", needed: "2025-12-03"},
-                ],
-                UK: [
-                    {title: "Kitchen Assistant", description: "Support kitchen operations in busy restaurant environment.", company: "Bistro London", payment: "£12 per hour", hoursPerWeek: 35, workingHours: "10:00 AM - 6:00 PM", requirements: "Team player, fast-paced environment", experience: "None required", type: "unskilled", posted: "2025-07-02", needed: "2026-03-09"},
-{title: "Care Assistant", description: "Provide personal care and support to elderly residents.", company: "Sunshine Care UK", payment: "£11 per hour", hoursPerWeek: 37.5, workingHours: "7:00 AM - 3:30 PM", requirements: "Compassionate, reliable", experience: "Training provided", type: "unskilled", posted: "2025-07-01", needed: "2026-01-23"},
-{title: "Delivery Driver", description: "Deliver packages and goods to customers across the city.", company: "QuickDelivery UK", payment: "£14 per hour", hoursPerWeek: 40, workingHours: "8:00 AM - 5:00 PM", requirements: "Valid driver's license", experience: "1+ year preferred", type: "unskilled", posted: "2025-01-13", needed: "2025-06-11"},
-{title: "Registered Nurse", description: "Provide patient care in NHS hospital setting.", company: "NHS Trust London", payment: "£4800 per month", hoursPerWeek: 37.5, workingHours: "7:00 AM - 3:30 PM", requirements: "Nursing degree, NMC registration", experience: "2+ years required", type: "skilled", posted: "2025-05-24", needed: "2025-10-08"},
-{title: "Physiotherapist", description: "Provide rehabilitation services to patients.", company: "Wellness Clinic UK", payment: "£4500 per month", hoursPerWeek: 37.5, workingHours: "8:00 AM - 4:30 PM", requirements: "Physiotherapy degree, HCPC registration", experience: "2+ years required", type: "skilled", posted: "2025-06-20", needed: "2025-12-20"},
-{title: "Teacher", description: "Teach primary school children in supportive environment.", company: "Greenfield Primary", payment: "£3800 per month", hoursPerWeek: 32.5, workingHours: "8:30 AM - 3:30 PM", requirements: "Teaching qualification, DBS check", experience: "1+ year required", type: "skilled", posted: "2025-05-09", needed: "2025-12-24"},
-
-                ],
-                Australia: [
-                    {title: "Construction Worker", description: "General construction duties including concrete work and framing.", company: "BuildRight Australia", payment: "$28 per hour", hoursPerWeek: 38, workingHours: "6:30 AM - 3:30 PM", requirements: "Safety certification, physical fitness", experience: "1+ year preferred", type: "unskilled", posted: "2025-07-02", needed: "2026-01-01"},
-{title: "Mining Operator", description: "Operate heavy machinery in mining operations.", company: "OzMine Australia", payment: "$35 per hour", hoursPerWeek: 42, workingHours: "6:00 AM - 6:00 PM", requirements: "Heavy machinery license, safety training", experience: "1+ year required", type: "unskilled", posted: "2025-07-01", needed: "2026-01-10"},
-{title: "Fruit Picker", description: "Harvest seasonal fruits in agricultural setting.", company: "Fresh Harvest AU", payment: "$22 per hour", hoursPerWeek: 40, workingHours: "5:00 AM - 2:00 PM", requirements: "Physical fitness, outdoor work", experience: "None required", type: "unskilled", posted: "2025-04-19", needed: "2025-11-07"},
-{title: "Hospitality Worker", description: "Serve customers in restaurant and bar environment.", company: "Coastal Restaurant", payment: "$21 per hour", hoursPerWeek: 35, workingHours: "5:00 PM - 12:00 AM", requirements: "Customer service skills", experience: "None required", type: "unskilled", posted: "2025-06-01", needed: "2026-01-24"},
-{title: "Registered Nurse", description: "Provide patient care in private hospital.", company: "Melbourne Private Hospital", payment: "$6800 per month", hoursPerWeek: 38, workingHours: "7:00 AM - 3:00 PM", requirements: "Nursing degree, AHPRA registration", experience: "2+ years required", type: "skilled", posted: "2025-05-25", needed: "2026-01-05"},
-{title: "Engineer", description: "Design and oversee construction projects.", company: "Sydney Engineering", payment: "$8500 per month", hoursPerWeek: 38, workingHours: "8:00 AM - 4:00 PM", requirements: "Engineering degree, professional registration", experience: "5+ years required", type: "skilled", posted: "2025-04-02", needed: "2025-07-05"},
-              
-                ],
-                UAE: [
-                    {title: "Hospitality Staff", description: "Provide excellent service in luxury hotel environment.", company: "Dubai Grand Hotel", payment: "$1800 per month", hoursPerWeek: 48, workingHours: "8:00 AM - 8:00 PM", requirements: "Customer service skills, professional appearance", experience: "1+ year preferred", type: "unskilled", posted: "2025-07-02", needed: "2026-01-29"},
-{title: "Construction Worker", description: "Work on large-scale construction projects.", company: "Emirates Construction", payment: "$1500 per month", hoursPerWeek: 48, workingHours: "6:00 AM - 6:00 PM", requirements: "Physical fitness, safety training", experience: "None required", type: "unskilled", posted: "2025-07-01", needed: "2026-03-01"},
-{title: "Retail Assistant", description: "Assist customers in high-end retail environment.", company: "Luxury Mall Dubai", payment: "$1600 per month", hoursPerWeek: 45, workingHours: "10:00 AM - 10:00 PM", requirements: "Customer service, language skills", experience: "None required", type: "unskilled", posted: "2025-04-08", needed: "2025-11-20"},
-{title: "Software Engineer", description: "Develop innovative software solutions.", company: "TechHub UAE", payment: "$8000 per month", hoursPerWeek: 40, workingHours: "9:00 AM - 6:00 PM", requirements: "Computer Science degree, programming skills", experience: "3+ years required", type: "skilled", posted: "2025-05-27", needed: "2025-10-27"},
-{title: "Marketing Manager", description: "Lead marketing campaigns for luxury brand.", company: "Emirates Luxury", payment: "$9500 per month", hoursPerWeek: 45, workingHours: "9:00 AM - 7:00 PM", requirements: "Marketing degree, leadership experience", experience: "5+ years required", type: "skilled", posted: "2025-06-14", needed: "2026-01-05"},
-{title: "Finance Manager", description: "Manage financial operations and reporting.", company: "Dubai Finance Corp", payment: "$9000 per month", hoursPerWeek: 40, workingHours: "8:00 AM - 5:00 PM", requirements: "Finance degree, CPA preferred", experience: "5+ years required", type: "skilled", posted: "2025-01-23", needed: "2025-07-30"},
-
-                ]
-            };
-
-            countries.forEach(country => {
-                const templates = jobTemplates[country];
-                for (let i = 0; i < 100; i++) {
-                    const template = templates[i % templates.length];
-                    const variations = [
-                        "Entry Level", "Senior", "Lead", "Assistant", "Junior", "Experienced", 
-                        "Full Time", "Contract", "Permanent", "Temporary", "Part Time"
-                    ];
-                    const companyVariations = [
-                        "Corp", "Ltd", "Inc", "Group", "Solutions", "Services", "International", 
-                        "Global", "Enterprise", "Holdings", "Partners", "Associates"
-                    ];
-                    
-                    const variation = variations[i % variations.length];
-                    const companyVar = companyVariations[i % companyVariations.length];
-                    
-                    allJobs.push({
-                        id: jobId++,
-                        title: i === 0 ? template.title : `${variation} ${template.title}`,
-                        description: template.description,
-                        company: i === 0 ? template.company : `${template.company} ${companyVar}`,
-                        location: country,
-                        payment: template.payment,
-                        hoursPerWeek: template.hoursPerWeek,
-                        workingHours: template.workingHours,
-                        requirements: template.requirements,
-                        experience: template.experience,
-                        posted: new Date(2025, 6, Math.floor(Math.random() * 30) + 1).toISOString().split('T')[0],
-                        neededBy: new Date(2025, 6 + Math.floor(Math.random() * 2), Math.floor(Math.random() * 30) + 1).toISOString().split('T')[0],
-                        type: template.type
-                    });
-                }
-            });
-
-            return allJobs;
-        };
-
-        const jobs = generateJobs();
+        emailjs.init(EMAILJS_PUBLIC_KEY);
 
         // Global variables
         let currentUser = null;
-        let filteredJobs = [...jobs];
-        let currentJob = null;
+        let selectedJob = null;
+        let applications = [];
+        let currentPage = 'home';
+        let selectedCountry = 'All';
 
-        // DOM Elements
-        const jobsGrid = document.getElementById('jobs-grid');
-        const countryBtns = document.querySelectorAll('.country-btn');
-        const modals = document.querySelectorAll('.modal');
-        const closeBtns = document.querySelectorAll('.close');
+        // Sample job data
+        const jobs = [
+            {
+                id: '1',
+                title: 'Senior Software Engineer',
+                description: 'Join our innovative team to build cutting-edge web applications using React, Node.js, and cloud technologies.',
+                company: 'TechCorp Solutions',
+                location: 'San Francisco, CA',
+                country: 'USA',
+                payment: '$85-120/hour',
+                workingHours: '9:00 AM - 6:00 PM PST',
+                hoursPerWeek: '40 hours/week',
+                requirements: ['5+ years React experience', 'Node.js proficiency', 'Cloud platforms (AWS/Azure)'],
+                experienceLevel: 'Senior Level',
+                isSkilled: true,
+                postedDate: '2025-03-15',
+                neededBy: '2025-06-15'
+            },
+            {
+                id: '2',
+                title: 'Construction Worker',
+                description: 'Seeking reliable construction workers for residential building projects. Physical demands include lifting, carrying, and operating tools.',
+                company: 'BuildRight Construction',
+                location: 'London, UK',
+                country: 'UK',
+                payment: '$25-35/hour',
+                workingHours: '7:00 AM - 4:00 PM GMT',
+                hoursPerWeek: '45 hours/week',
+                requirements: ['Physical fitness', 'Basic tool knowledge', 'Safety certification preferred'],
+                experienceLevel: 'Entry Level',
+                isSkilled: false,
+                postedDate: '2025-02-20',
+                neededBy: '2025-08-20'
+            },
+            {
+                id: '3',
+                title: 'Registered Nurse',
+                description: 'Compassionate nurse needed for elderly care facility. Provide quality healthcare and support to residents.',
+                company: 'MediCare Australia',
+                location: 'Sydney, NSW',
+                country: 'Australia',
+                payment: '$4,800-6,200/month',
+                workingHours: '6:00 AM - 2:00 PM AEST',
+                hoursPerWeek: '38 hours/week',
+                requirements: ['RN certification', '2+ years experience', 'CPR certified'],
+                experienceLevel: 'Mid Level',
+                isSkilled: true,
+                postedDate: '2025-01-10',
+                neededBy: '2025-07-10'
+            },
+            {
+                id: '4',
+                title: 'Delivery Driver',
+                description: 'Reliable delivery driver needed for food delivery service. Must have own vehicle and clean driving record.',
+                company: 'QuickEats Dubai',
+                location: 'Dubai, UAE',
+                country: 'UAE',
+                payment: '$18-25/hour',
+                workingHours: '11:00 AM - 9:00 PM GST',
+                hoursPerWeek: '50 hours/week',
+                requirements: ['Valid driving license', 'Own vehicle', 'GPS navigation skills'],
+                experienceLevel: 'Entry Level',
+                isSkilled: false,
+                postedDate: '2025-04-01',
+                neededBy: '2025-07-01'
+            },
+            {
+                id: '5',
+                title: 'Financial Analyst',
+                description: 'Analyze financial data and create reports for investment decisions. Strong analytical skills required.',
+                company: 'Global Finance Inc',
+                location: 'New York, NY',
+                country: 'USA',
+                payment: '$75-95/hour',
+                workingHours: '9:00 AM - 5:00 PM EST',
+                hoursPerWeek: '40 hours/week',
+                requirements: ['Finance degree', 'Excel proficiency', '3+ years experience'],
+                experienceLevel: 'Mid Level',
+                isSkilled: true,
+                postedDate: '2025-02-28',
+                neededBy: '2025-09-28'
+            },
+            {
+                id: '6',
+                title: 'Hotel Housekeeper',
+                description: 'Maintain cleanliness and comfort standards in luxury hotel rooms. Attention to detail essential.',
+                company: 'Royal Hotel Group',
+                location: 'Manchester, UK',
+                country: 'UK',
+                payment: '$16-20/hour',
+                workingHours: '8:00 AM - 4:00 PM GMT',
+                hoursPerWeek: '35 hours/week',
+                requirements: ['Previous cleaning experience', 'Attention to detail', 'Physical stamina'],
+                experienceLevel: 'Entry Level',
+                isSkilled: false,
+                postedDate: '2025-03-10',
+                neededBy: '2025-06-10'
+            },
+            {
+                id: '7',
+                title: 'Mechanical Engineer',
+                description: 'Design and develop mechanical systems for mining operations. CAD software experience required.',
+                company: 'AusMineral Corp',
+                location: 'Perth, WA',
+                country: 'Australia',
+                payment: '$95-130/hour',
+                workingHours: '8:00 AM - 5:00 PM AWST',
+                hoursPerWeek: '40 hours/week',
+                requirements: ['Mechanical Engineering degree', 'CAD software', 'Mining industry experience'],
+                experienceLevel: 'Senior Level',
+                isSkilled: true,
+                postedDate: '2025-01-25',
+                neededBy: '2025-10-25'
+            },
+            {
+                id: '8',
+                title: 'Warehouse Assistant',
+                description: 'Pack, sort, and organize inventory in fast-paced warehouse environment. Forklift certification a plus.',
+                company: 'Emirates Logistics',
+                location: 'Abu Dhabi, UAE',
+                country: 'UAE',
+                payment: '$15-22/hour',
+                workingHours: '6:00 AM - 2:00 PM GST',
+                hoursPerWeek: '48 hours/week',
+                requirements: ['Physical fitness', 'Basic math skills', 'Forklift certification preferred'],
+                experienceLevel: 'Entry Level',
+                isSkilled: false,
+                postedDate: '2025-04-05',
+                neededBy: '2025-07-05'
+            }
+        ];
 
-        // Initialize app
-        document.addEventListener('DOMContentLoaded', function() {
-            checkUserLogin();
-            displayJobs(jobs);
-            initEventListeners();
+        // Countries list
+        const countries = [
+            'Afghanistan', 'Albania', 'Algeria', 'Andorra', 'Angola', 'Argentina', 'Armenia', 'Australia',
+            'Austria', 'Azerbaijan', 'Bahrain', 'Bangladesh', 'Barbados', 'Belarus', 'Belgium', 'Belize',
+            'Benin', 'Bhutan', 'Bolivia', 'Bosnia and Herzegovina', 'Botswana', 'Brazil', 'Brunei', 'Bulgaria',
+            'Burkina Faso', 'Burundi', 'Cambodia', 'Cameroon', 'Canada', 'Cape Verde', 'Central African Republic',
+            'Chad', 'Chile', 'China', 'Colombia', 'Comoros', 'Congo', 'Costa Rica', 'Croatia', 'Cuba',
+            'Cyprus', 'Czech Republic', 'Denmark', 'Djibouti', 'Dominica', 'Dominican Republic', 'East Timor',
+            'Ecuador', 'Egypt', 'El Salvador', 'Equatorial Guinea', 'Eritrea', 'Estonia', 'Ethiopia', 'Fiji',
+            'Finland', 'France', 'Gabon', 'Gambia', 'Georgia', 'Germany', 'Ghana', 'Greece', 'Grenada',
+            'Guatemala', 'Guinea', 'Guinea-Bissau', 'Guyana', 'Haiti', 'Honduras', 'Hungary', 'Iceland',
+            'India', 'Indonesia', 'Iran', 'Iraq', 'Ireland', 'Israel', 'Italy', 'Jamaica', 'Japan',
+            'Jordan', 'Kazakhstan', 'Kenya', 'Kiribati', 'North Korea', 'South Korea', 'Kuwait', 'Kyrgyzstan',
+            'Laos', 'Latvia', 'Lebanon', 'Lesotho', 'Liberia', 'Libya', 'Liechtenstein', 'Lithuania',
+            'Luxembourg', 'Madagascar', 'Malawi', 'Malaysia', 'Maldives', 'Mali', 'Malta', 'Marshall Islands',
+            'Mauritania', 'Mauritius', 'Mexico', 'Micronesia', 'Moldova', 'Monaco', 'Mongolia', 'Montenegro',
+            'Morocco', 'Mozambique', 'Myanmar', 'Namibia', 'Nauru', 'Nepal', 'Netherlands', 'New Zealand',
+            'Nicaragua', 'Niger', 'Nigeria', 'Norway', 'Oman', 'Pakistan', 'Palau', 'Palestine', 'Panama',
+            'Papua New Guinea', 'Paraguay', 'Peru', 'Philippines', 'Poland', 'Portugal', 'Qatar', 'Romania',
+            'Russia', 'Rwanda', 'Saint Kitts and Nevis', 'Saint Lucia', 'Saint Vincent and the Grenadines',
+            'Samoa', 'San Marino', 'São Tomé and Príncipe', 'Saudi Arabia', 'Senegal', 'Serbia', 'Seychelles',
+            'Sierra Leone', 'Singapore', 'Slovakia', 'Slovenia', 'Solomon Islands', 'Somalia', 'South Africa',
+            'South Sudan', 'Spain', 'Sri Lanka', 'Sudan', 'Suriname', 'Sweden', 'Switzerland', 'Syria',
+            'Taiwan', 'Tajikistan', 'Tanzania', 'Thailand', 'Togo', 'Tonga', 'Trinidad and Tobago', 'Tunisia',
+            'Turkey', 'Turkmenistan', 'Tuvalu', 'Uganda', 'Ukraine', 'United Arab Emirates', 'United Kingdom',
+            'United States', 'Uruguay', 'Uzbekistan', 'Vanuatu', 'Vatican City', 'Venezuela', 'Vietnam',
+            'Yemen', 'Zambia', 'Zimbabwe'
+        ];
+
+        // Initialize the application
+        function init() {
+            loadUserData();
+            loadApplications();
+            populateCountries();
+            renderJobs();
+            updateUserInterface();
+            showRandomPopup();
+        }
+
+        // Load user data from localStorage
+        function loadUserData() {
+            const savedUser = localStorage.getItem('careerbridge_user');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+            }
+        }
+
+        // Load applications from localStorage
+        function loadApplications() {
+            const savedApplications = localStorage.getItem('careerbridge_applications');
+            if (savedApplications) {
+                applications = JSON.parse(savedApplications);
+            }
+        }
+
+        // Populate countries dropdown
+        function populateCountries() {
+            const nationalitySelect = document.querySelector('select[name="nationality"]');
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                nationalitySelect.appendChild(option);
+            });
+        }
+
+        // Update user interface based on login status
+        function updateUserInterface() {
+            const userSection = document.getElementById('userSection');
+            
+            if (currentUser) {
+                userSection.innerHTML = `
+                    <div class="user-menu">
+                        <button class="nav-btn" onclick="toggleUserMenu()">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            ${currentUser.name}
+                        </button>
+                        <div class="user-dropdown" id="userDropdown">
+                            <button class="dropdown-item" onclick="setCurrentPage('profile')">Profile</button>
+                            <button class="dropdown-item" onclick="setCurrentPage('records')">Records</button>
+                            <button class="dropdown-item logout" onclick="logout()">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="margin-right: 0.5rem;">
+                                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                                    <polyline points="16,17 21,12 16,7"></polyline>
+                                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                                </svg>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                userSection.innerHTML = `
+                    <button class="nav-btn" onclick="showAuthModal()">Sign In</button>
+                `;
+            }
+        }
+
+        // Toggle user menu
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdown');
+            dropdown.classList.toggle('show');
+        }
+
+        // Close user menu when clicking outside
+        document.addEventListener('click', function(event) {
+            const userMenu = document.querySelector('.user-menu');
+            if (userMenu && !userMenu.contains(event.target)) {
+                const dropdown = document.getElementById('userDropdown');
+                if (dropdown) {
+                    dropdown.classList.remove('show');
+                }
+            }
         });
 
-        // Event Listeners
-        function initEventListeners() {
-            // Country filter
-            countryBtns.forEach(btn => {
-                btn.addEventListener('click', () => filterByCountry(btn.dataset.country));
-            });
-
-            // Modal controls
-            closeBtns.forEach(btn => {
-                btn.addEventListener('click', () => {
-                    btn.closest('.modal').style.display = 'none';
-                });
-            });
-
-            window.addEventListener('click', (e) => {
-                if (e.target.classList.contains('modal')) {
-                    e.target.style.display = 'none';
-                }
-            });
-
-            // Auth buttons
-            document.getElementById('register-btn').addEventListener('click', () => {
-                document.getElementById('registration-modal').style.display = 'block';
-            });
-
-            document.getElementById('login-btn').addEventListener('click', () => {
-                document.getElementById('login-modal').style.display = 'block';
-            });
-
-            document.getElementById('logout-link').addEventListener('click', logout);
-            document.getElementById('profile-link').addEventListener('click', showProfile);
-            document.getElementById('records-link').addEventListener('click', showRecords);
-
-            // Forms
-            document.getElementById('registration-form').addEventListener('submit', handleRegistration);
-            document.getElementById('login-form').addEventListener('submit', handleLogin);
-            document.getElementById('application-form').addEventListener('submit', handleApplication);
-        }
-
-        // User Authentication
-        function checkUserLogin() {
-            const userData = localStorage.getItem('careerbridge_user');
-            if (userData) {
-                currentUser = JSON.parse(userData);
-                updateUserUI();
-            }
-        }
-
-        function updateUserUI() {
-            if (currentUser) {
-                document.getElementById('guest-section').style.display = 'none';
-                document.getElementById('user-section').style.display = 'block';
-                document.getElementById('user-name').textContent = currentUser.fullname;
-            } else {
-                document.getElementById('guest-section').style.display = 'block';
-                document.getElementById('user-section').style.display = 'none';
-            }
-        }
-
-        function handleRegistration(e) {
-            e.preventDefault();
-            const formData = new FormData(e.target);
-            const userData = {
-                fullname: document.getElementById('reg-fullname').value,
-                email: document.getElementById('reg-email').value,
-                password: document.getElementById('reg-password').value,
-                gender: document.getElementById('reg-gender').value,
-                dob: document.getElementById('reg-dob').value,
-                nationality: document.getElementById('reg-nationality').value,
-                registrationDate: new Date().toISOString(),
-                applications: []
-            };
-
-            localStorage.setItem('careerbridge_user', JSON.stringify(userData));
-            currentUser = userData;
-            updateUserUI();
-            document.getElementById('registration-modal').style.display = 'none';
-            showToast('Account created successfully!');
-            e.target.reset();
-        }
-
-        function handleLogin(e) {
-            e.preventDefault();
-            const email = document.getElementById('login-email').value;
-            const password = document.getElementById('login-password').value;
+        // Set current page
+        function setCurrentPage(page) {
+            currentPage = page;
             
-            const userData = localStorage.getItem('careerbridge_user');
-            if (userData) {
-                const user = JSON.parse(userData);
-                if (user.email === email && user.password === password) {
-                    currentUser = user;
-                    updateUserUI();
-                    document.getElementById('login-modal').style.display = 'none';
-                    showToast('Welcome back!');
-                    e.target.reset();
-                } else {
-                    showToast('Invalid credentials', 'error');
-                }
-            } else {
-                showToast('User not found. Please register first.', 'error');
+            // Hide all pages
+            document.getElementById('homePage').classList.add('hidden');
+            document.getElementById('profilePage').classList.add('hidden');
+            document.getElementById('recordsPage').classList.add('hidden');
+            
+            // Show selected page
+            document.getElementById(page + 'Page').classList.remove('hidden');
+            
+            // Close user menu
+            const dropdown = document.getElementById('userDropdown');
+            if (dropdown) {
+                dropdown.classList.remove('show');
+            }
+            
+            // Render page content
+            if (page === 'profile') {
+                renderProfile();
+            } else if (page === 'records') {
+                renderRecords();
             }
         }
 
-        function logout() {
-            currentUser = null;
-            updateUserUI();
-            showToast('Logged out successfully');
-        }
-
-        // Job Filtering and Display
+        // Filter jobs by country
         function filterByCountry(country) {
-            // Update active button
-            countryBtns.forEach(btn => btn.classList.remove('active'));
-            document.querySelector(`[data-country="${country}"]`).classList.add('active');
-
-            // Filter jobs
-            if (country === 'all') {
-                filteredJobs = [...jobs];
-            } else {
-                filteredJobs = jobs.filter(job => job.location === country);
-            }
+            selectedCountry = country;
             
-            displayJobs(filteredJobs);
-        }
-
-        function displayJobs(jobsToShow) {
-            jobsGrid.innerHTML = '';
-            
-            if (jobsToShow.length === 0) {
-                jobsGrid.innerHTML = '<p class="no-jobs">No jobs found for the selected country.</p>';
-                return;
-            }
-
-            jobsToShow.forEach(job => {
-                const jobCard = createJobCard(job);
-                jobsGrid.appendChild(jobCard);
+            // Update filter buttons
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
             });
+            event.target.classList.add('active');
+            
+            renderJobs();
         }
 
-        function createJobCard(job) {
-            const card = document.createElement('div');
-            card.className = 'job-card';
+        // Render jobs
+        function renderJobs() {
+            const jobGrid = document.getElementById('jobGrid');
+            const filteredJobs = selectedCountry === 'All' 
+                ? jobs 
+                : jobs.filter(job => job.country === selectedCountry);
             
-            card.innerHTML = `
-                <div class="job-header">
-                    <div>
-                        <h3 class="job-title">${job.title}</h3>
-                        <p class="job-company">${job.company}</p>
+            jobGrid.innerHTML = filteredJobs.map(job => `
+                <div class="job-card slide-in">
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">${job.title}</h3>
+                        </div>
+                        <span class="experience-badge ${job.experienceLevel.toLowerCase().replace(' ', '')}">${job.experienceLevel}</span>
                     </div>
-                    <span class="job-location">${job.location}</span>
+                    
+                    <p class="job-description">${job.description}</p>
+                    
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>${job.company}</span>
+                        </div>
+                        <div class="job-detail">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>${job.location}</span>
+                        </div>
+                        <div class="job-detail">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            <span>${job.payment}</span>
+                        </div>
+                        <div class="job-detail">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12,6 12,12 16,14"></polyline>
+                            </svg>
+                            <span>${job.workingHours}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="job-requirements">
+                        ${job.requirements.slice(0, 2).map(req => `<span class="requirement-tag">${req}</span>`).join('')}
+                        ${job.requirements.length > 2 ? `<span class="requirement-tag">+${job.requirements.length - 2} more</span>` : ''}
+                    </div>
+                    
+                    <div class="job-footer">
+                        <div class="posted-date">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            Posted: ${job.postedDate}
+                        </div>
+                        <button class="apply-btn" onclick="applyForJob('${job.id}')">Apply Now</button>
+                    </div>
                 </div>
-                <p class="job-description">${job.description}</p>
-                <div class="job-details">
-                    <div class="job-detail">
-                        <span>Payment:</span>
-                        <strong>${job.payment}</strong>
-                    </div>
-                    <div class="job-detail">
-                        <span>Hours/Week:</span>
-                        <strong>${job.hoursPerWeek}</strong>
-                    </div>
-                    <div class="job-detail">
-                        <span>Working Hours:</span>
-                        <strong>${job.workingHours}</strong>
-                    </div>
-                    <div class="job-detail">
-                        <span>Experience:</span>
-                        <strong>${job.experience}</strong>
-                    </div>
-                </div>
-                <div class="job-requirements">
-                    <strong>Requirements:</strong>
-                    ${job.requirements}
-                </div>
-                <div class="job-dates">
-                    <span>Posted: ${formatDate(job.posted)}</span>
-                    <span>Needed by: ${formatDate(job.neededBy)}</span>
-                </div>
-                <button class="apply-btn" onclick="openApplication(${job.id})">Apply Now</button>
-            `;
-            
-            return card;
+            `).join('');
         }
 
-        // Job Application
-        function openApplication(jobId) {
+        // Apply for job
+        function applyForJob(jobId) {
+            selectedJob = jobs.find(job => job.id === jobId);
+            
             if (!currentUser) {
-                showToast('Please login or register to apply for jobs', 'error');
-                document.getElementById('registration-modal').style.display = 'block';
-                return;
-            }
-
-            currentJob = jobs.find(job => job.id === jobId);
-            if (!currentJob) return;
-
-            // Fill job info
-            document.getElementById('job-info').innerHTML = `
-                <h3>${currentJob.title}</h3>
-                <p><strong>Company:</strong> ${currentJob.company}</p>
-                <p><strong>Location:</strong> ${currentJob.location}</p>
-                <p><strong>Payment:</strong> ${currentJob.payment}</p>
-            `;
-
-            // Pre-fill user data
-            document.getElementById('app-nationality').value = currentUser.nationality || '';
-            document.getElementById('app-gender').value = currentUser.gender || '';
-            document.getElementById('app-dob').value = currentUser.dob || '';
-
-            // Show/hide education field based on job type
-            const educationGroup = document.getElementById('education-group');
-            const educationSelect = document.getElementById('app-education');
-            
-            if (currentJob.type === 'skilled') {
-                educationGroup.style.display = 'block';
-                educationSelect.required = true;
+                showAuthModal();
             } else {
-                educationGroup.style.display = 'none';
-                educationSelect.required = false;
+                showApplicationModal();
             }
-
-            document.getElementById('application-modal').style.display = 'block';
         }
 
-        function handleApplication(e) {
+        // Show authentication modal
+        function showAuthModal() {
+            document.getElementById('authModal').classList.add('show');
+        }
+
+        // Hide authentication modal
+        function hideAuthModal() {
+            document.getElementById('authModal').classList.remove('show');
+        }
+
+        // Show application modal
+        function showApplicationModal() {
+            if (!selectedJob || !currentUser) return;
+            
+            const modal = document.getElementById('applicationModal');
+            const form = document.getElementById('applicationForm');
+            const title = document.getElementById('applicationTitle');
+            const educationGroup = document.getElementById('educationGroup');
+            
+            title.textContent = `Apply for ${selectedJob.title}`;
+            
+            // Pre-fill form with user data
+            form.name.value = currentUser.name;
+            form.email.value = currentUser.email || '';
+            form.nationality.value = currentUser.nationality;
+            form.idPassport.value = currentUser.idPassport;
+            
+            // Show/hide education field based on job type
+            if (selectedJob.isSkilled) {
+                educationGroup.classList.remove('hidden');
+                form.educationLevel.required = true;
+            } else {
+                educationGroup.classList.add('hidden');
+                form.educationLevel.required = false;
+            }
+            
+            modal.classList.add('show');
+        }
+
+        // Hide application modal
+        function hideApplicationModal() {
+            document.getElementById('applicationModal').classList.remove('show');
+        }
+
+        // Show success modal
+        function showSuccessModal(emailSent) {
+            const modal = document.getElementById('successModal');
+            const statusMessage = document.getElementById('emailStatusMessage');
+            
+            if (emailSent) {
+                statusMessage.innerHTML = '<p style="color: #16a34a; font-size: 0.9rem; margin-bottom: 1rem;">✓ Email notification sent successfully</p>';
+            } else {
+                statusMessage.innerHTML = '<p style="color: #dc2626; font-size: 0.9rem; margin-bottom: 1rem;">⚠ Email notification failed, but application was saved</p>';
+            }
+            
+            modal.classList.add('show');
+        }
+
+        // Hide success modal
+        function hideSuccessModal() {
+            document.getElementById('successModal').classList.remove('show');
+        }
+
+        // Handle authentication form submission
+        document.getElementById('authForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            if (!currentJob || !currentUser) return;
-
-            const applicationData = {
-                jobId: currentJob.id,
-                jobTitle: currentJob.title,
-                company: currentJob.company,
-                location: currentJob.location,
-                firstName: document.getElementById('app-firstname').value,
-                middleName: document.getElementById('app-middlename').value,
-                lastName: document.getElementById('app-lastname').value,
-                dob: document.getElementById('app-dob').value,
-                gender: document.getElementById('app-gender').value,
-                idPassport: document.getElementById('app-id').value,
-                nationality: document.getElementById('app-nationality').value,
-                medicalConditions: document.getElementById('app-medical').value,
-                education: document.getElementById('app-education').value,
-                motivation: document.getElementById('app-motivation').value,
-                applicationDate: new Date().toISOString(),
-                applicantEmail: currentUser.email,
-                applicantName: currentUser.fullname
+            const formData = new FormData(e.target);
+            currentUser = {
+                name: formData.get('name'),
+                email: formData.get('email'),
+                dateOfBirth: formData.get('dateOfBirth'),
+                gender: formData.get('gender'),
+                nationality: formData.get('nationality'),
+                idPassport: formData.get('idPassport'),
+                password: formData.get('password')
             };
+            
+            localStorage.setItem('careerbridge_user', JSON.stringify(currentUser));
+            updateUserInterface();
+            hideAuthModal();
+            showApplicationModal();
+        });
 
-            // Send via EmailJS
-            emailjs.send('service_t8vherg', 'template_sqgf423', {
-                job_title: applicationData.jobTitle,
-                company: applicationData.company,
-                location: applicationData.location,
-                first_name: applicationData.firstName,
-                middle_name: applicationData.middleName,
-                last_name: applicationData.lastName,
-                date_of_birth: applicationData.dob,
-                gender: applicationData.gender,
-                id_passport: applicationData.idPassport,
-                nationality: applicationData.nationality,
-                medical_conditions: applicationData.medicalConditions,
-                education: applicationData.education,
-                motivation: applicationData.motivation,
-                applicant_email: applicationData.applicantEmail,
-                applicant_name: applicationData.applicantName,
-                application_date: formatDate(applicationData.applicationDate)
-            }, 'WNEjs_ksvkD2yiWv1')
-            .then(response => {
-                console.log('SUCCESS!', response.status, response.text);
+        // Handle application form submission
+        document.getElementById('applicationForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            if (!selectedJob || !currentUser) return;
+            
+            const submitBtn = document.getElementById('submitApplicationBtn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
+            
+            const formData = new FormData(e.target);
+            const personalMessage = formData.get('personalMessage');
+            const educationLevel = selectedJob.isSkilled ? formData.get('educationLevel') : undefined;
+            
+            // Prepare email data
+            const emailData = {
+                user_name: currentUser.name,
+                user_email: currentUser.email || '',
+                user_nationality: currentUser.nationality,
+                user_id_passport: currentUser.idPassport,
+                user_date_of_birth: currentUser.dateOfBirth,
+                user_gender: currentUser.gender,
+                job_title: selectedJob.title,
+                job_company: selectedJob.company,
+                job_location: selectedJob.location,
+                job_payment: selectedJob.payment,
+                job_working_hours: selectedJob.workingHours,
+                job_requirements: selectedJob.requirements.join(', '),
+                education_level: educationLevel,
+                personal_message: personalMessage,
+                application_date: new Date().toLocaleDateString()
+            };
+            
+            // Send email
+            const emailSent = await sendJobApplication(emailData);
+            
+            // Save application locally
+            const application = {
+                jobId: selectedJob.id,
+                jobTitle: selectedJob.title,
+                company: selectedJob.company,
+                appliedDate: new Date().toISOString().split('T')[0],
+                personalMessage: personalMessage,
+                educationLevel: educationLevel,
+                emailSent: emailSent
+            };
+            
+            applications.push(application);
+            localStorage.setItem('careerbridge_applications', JSON.stringify(applications));
+            
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit Application';
+            
+            hideApplicationModal();
+            showSuccessModal(emailSent);
+        });
+
+        // Send job application via EmailJS
+        async function sendJobApplication(emailData) {
+            try {
+                console.log('Sending email with data:', emailData);
                 
-                // Save to user's applications
-                currentUser.applications = currentUser.applications || [];
-                currentUser.applications.push(applicationData);
-                localStorage.setItem('careerbridge_user', JSON.stringify(currentUser));
+                const response = await emailjs.send(
+                    EMAILJS_SERVICE_ID,
+                    EMAILJS_TEMPLATE_ID,
+                    emailData,
+                    EMAILJS_PUBLIC_KEY
+                );
                 
-                document.getElementById('application-modal').style.display = 'none';
-                document.getElementById('application-form').reset();
-                showToast('Application submitted successfully!');
-            })
-            .catch(error => {
-                console.log('FAILED...', error);
-                showToast('Failed to submit application. Please try again.', 'error');
-            });
+                console.log('EmailJS Response:', response);
+                return response.status === 200;
+            } catch (error) {
+                console.error('EmailJS Error:', error);
+                return false;
+            }
         }
 
-        // Profile and Records
-        function showProfile() {
-            if (!currentUser) return;
+        // Render profile page
+        function renderProfile() {
+            const profileContent = document.getElementById('profileContent');
             
-            document.getElementById('profile-info').innerHTML = `
-                <div class="profile-item">
-                    <h3>Personal Information</h3>
-                    <p><strong>Name:</strong> ${currentUser.fullname}</p>
-                    <p><strong>Email:</strong> ${currentUser.email}</p>
-                    <p><strong>Gender:</strong> ${currentUser.gender}</p>
-                    <p><strong>Date of Birth:</strong> ${formatDate(currentUser.dob)}</p>
-                    <p><strong>Nationality:</strong> ${currentUser.nationality}</p>
-                    <p><strong>Member Since:</strong> ${formatDate(currentUser.registrationDate)}</p>
-                    <p><strong>Applications Submitted:</strong> ${currentUser.applications ? currentUser.applications.length : 0}</p>
+            if (!currentUser) {
+                profileContent.innerHTML = '<p>Please log in to view your profile.</p>';
+                return;
+            }
+            
+            profileContent.innerHTML = `
+                <div class="profile-grid">
+                    <div class="profile-field">
+                        <label>Full Name</label>
+                        <p>${currentUser.name}</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Email</label>
+                        <p>${currentUser.email || 'Not provided'}</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Date of Birth</label>
+                        <p>${currentUser.dateOfBirth}</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Gender</label>
+                        <p>${currentUser.gender}</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>Nationality</label>
+                        <p>${currentUser.nationality}</p>
+                    </div>
+                    <div class="profile-field">
+                        <label>ID/Passport</label>
+                        <p>${currentUser.idPassport}</p>
+                    </div>
                 </div>
             `;
-            
-            document.getElementById('profile-modal').style.display = 'block';
         }
 
-        function showRecords() {
-            if (!currentUser) return;
-            
-            const applications = currentUser.applications || [];
-            let recordsHTML = '';
+        // Render records page
+        function renderRecords() {
+            const recordsContent = document.getElementById('recordsContent');
             
             if (applications.length === 0) {
-                recordsHTML = '<p>No applications submitted yet.</p>';
-            } else {
-                applications.forEach((app, index) => {
-                    recordsHTML += `
-                        <div class="record-item">
-                            <h4>${app.jobTitle}</h4>
-                            <p><strong>Company:</strong> ${app.company}</p>
-                            <p><strong>Location:</strong> ${app.location}</p>
-                            <p><strong>Applied as:</strong> ${app.firstName} ${app.lastName}</p>
-                            <p class="record-date">Applied on: ${formatDate(app.applicationDate)}</p>
-                        </div>
-                    `;
-                });
+                recordsContent.innerHTML = '<p style="text-align: center; color: #6b7280; padding: 2rem;">No applications yet. Start applying to jobs!</p>';
+                return;
             }
             
-            document.getElementById('records-info').innerHTML = recordsHTML;
-            document.getElementById('records-modal').style.display = 'block';
+            recordsContent.innerHTML = applications.map(application => `
+                <div class="application-card">
+                    <div class="application-header">
+                        <div>
+                            <div class="application-title">${application.jobTitle}</div>
+                            <div class="application-company">${application.company}</div>
+                        </div>
+                        <div style="text-align: right;">
+                            <div class="application-date">Applied: ${application.appliedDate}</div>
+                            <div class="email-status ${application.emailSent ? 'success' : 'error'}">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                                ${application.emailSent ? 'Email Sent' : 'Email Failed'}
+                            </div>
+                        </div>
+                    </div>
+                    ${application.personalMessage ? `<p style="color: #4b5563; font-size: 0.9rem; margin-top: 0.5rem;">${application.personalMessage}</p>` : ''}
+                </div>
+            `).join('');
         }
 
-        // Utility Functions
-        function formatDate(dateString) {
-            const date = new Date(dateString);
-            return date.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'short',
-                day: 'numeric'
-            });
+        // Logout function
+        function logout() {
+            currentUser = null;
+            localStorage.removeItem('careerbridge_user');
+            updateUserInterface();
+            setCurrentPage('home');
+            showNotification('Logged out successfully', 'success');
         }
 
-        function showToast(message, type = 'success') {
-            const toast = document.getElementById('toast');
-            toast.textContent = message;
-            toast.className = `toast ${type} show`;
+        // Scroll to jobs section
+        function scrollToJobs() {
+            document.getElementById('jobGrid').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Show featured jobs
+        function showFeaturedJobs() {
+            const featuredJobs = jobs.filter(job => job.experienceLevel === 'Senior Level' || job.payment.includes('$85') || job.payment.includes('$95'));
+            showNotification(`Found ${featuredJobs.length} premium positions`, 'success');
+            
+            // Filter to show only featured jobs
+            const jobGrid = document.getElementById('jobGrid');
+            jobGrid.innerHTML = featuredJobs.map(job => `
+                <div class="job-card slide-in" style="border: 2px solid #667eea;">
+                    <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; margin: -1.5rem -1.5rem 1rem -1.5rem; padding: 0.5rem 1rem; border-radius: 14px 14px 0 0;">
+                        <span style="font-size: 0.8rem; font-weight: 600;">⭐ PREMIUM POSITION</span>
+                    </div>
+                    <div class="job-header">
+                        <div>
+                            <h3 class="job-title">${job.title}</h3>
+                        </div>
+                        <span class="experience-badge ${job.experienceLevel.toLowerCase().replace(' ', '')}">${job.experienceLevel}</span>
+                    </div>
+                    
+                    <p class="job-description">${job.description}</p>
+                    
+                    <div class="job-details">
+                        <div class="job-detail">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="12" cy="7" r="4"></circle>
+                            </svg>
+                            <span>${job.company}</span>
+                        </div>
+                        <div class="job-detail">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>${job.location}</span>
+                        </div>
+                        <div class="job-detail">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                            </svg>
+                            <span>${job.payment}</span>
+                        </div>
+                        <div class="job-detail">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12,6 12,12 16,14"></polyline>
+                            </svg>
+                            <span>${job.workingHours}</span>
+                        </div>
+                    </div>
+                    
+                    <div class="job-requirements">
+                        ${job.requirements.slice(0, 2).map(req => `<span class="requirement-tag">${req}</span>`).join('')}
+                        ${job.requirements.length > 2 ? `<span class="requirement-tag">+${job.requirements.length - 2} more</span>` : ''}
+                    </div>
+                    
+                    <div class="job-footer">
+                        <div class="posted-date">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="16" y1="2" x2="16" y2="6"></line>
+                                <line x1="8" y1="2" x2="8" y2="6"></line>
+                                <line x1="3" y1="10" x2="21" y2="10"></line>
+                            </svg>
+                            Posted: ${job.postedDate}
+                        </div>
+                        <button class="apply-btn" onclick="applyForJob('${job.id}')" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">Apply Now</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `popup-notification ${type}`;
+            notification.innerHTML = `
+                <div style="font-weight: 600; margin-bottom: 0.25rem;">${type === 'success' ? 'Success!' : 'Notice'}</div>
+                <div style="font-size: 0.9rem; color: #6b7280;">${message}</div>
+            `;
+            
+            document.body.appendChild(notification);
             
             setTimeout(() => {
-                toast.classList.remove('show');
+                notification.classList.add('show');
+            }, 100);
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    document.body.removeChild(notification);
+                }, 300);
             }, 3000);
         }
 
-        // Make functions globally available
-        window.openApplication = openApplication;
+        // Show random popup notifications
+        function showRandomPopup() {
+            const messages = [
+                'New job opportunities available in your area!',
+                '🔥 Hot jobs: 15 new positions added today',
+                '💼 Premium employers are actively hiring',
+                '🌟 Your dream job might be just one click away',
+                '📈 Salary ranges updated for international positions'
+            ];
+            
+            const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+            
+            setTimeout(() => {
+                showNotification(randomMessage, 'success');
+                
+                // Schedule next random popup
+                setTimeout(showRandomPopup, Math.random() * 30000 + 45000); // 45-75 seconds
+            }, Math.random() * 10000 + 5000); // 5-15 seconds initial delay
+        }
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(event) {
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.classList.remove('show');
+                }
+            });
+        });
+
+        // Initialize the application when the page loads
+        document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
 </html>
