@@ -44,12 +44,13 @@
     }
   </style>
 </head>
-<body class="bg-gray-50">
 
-  <!-- Fixed Header -->
-  <header class="fixed top-2 left-0 right-0 z-50 bg-white shadow-lg">
-    <div class="w-[98%] mx-auto bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-b-lg shadow-lg px-6 py-4">
-      <div class="flex justify-between items-center">
+<body class="bg-gray-50 overflow-auto">
+
+  <!-- ✅ Fixed Header reaching battery bar -->
+  <header class="fixed top-0 left-0 right-0 z-50 bg-white shadow-lg">
+    <div class="pt-safe w-[100%] bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-b-xl shadow-lg px-6 py-4">
+      <div class="max-w-7xl mx-auto flex justify-between items-center">
         <!-- Left: Logo + Brand -->
         <div class="flex items-center">
           <svg class="w-8 h-8 mr-2 text-yellow-300" fill="currentColor" viewBox="0 0 24 24">
@@ -70,29 +71,29 @@
     </div>
   </header>
 
-  
-    <!-- Main Content -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <!-- Home Page Content -->
-        <div id="home-page">
-            <!-- Country Filters -->
-            <div class="flex flex-wrap gap-3 mb-6">
-                <button onclick="filterByCountry('All')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-blue-600 text-white shadow-blue-200" data-country="All">
-                    All
-                </button>
-                <button onclick="filterByCountry('USA')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-200" data-country="USA">
-                    USA
-                </button>
-                <button onclick="filterByCountry('UK')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-200" data-country="UK">
-                    UK
-                </button>
-                <button onclick="filterByCountry('Australia')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-200" data-country="Australia">
-                    Australia
-                </button>
-                <button onclick="filterByCountry('UAE')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-200" data-country="UAE">
-                    UAE
-                </button>
-            </div>
+  <!-- ✅ Push content below header -->
+  <div class="h-[112px]"></div>
+
+  <!-- ✅ Main Content -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Country Filters -->
+    <div class="flex flex-wrap gap-3 mb-6">
+      <button onclick="filterByCountry('All')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-blue-600 text-white shadow-blue-200" data-country="All">
+        All
+      </button>
+      <button onclick="filterByCountry('USA')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-200" data-country="USA">
+        USA
+      </button>
+      <button onclick="filterByCountry('UK')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-200" data-country="UK">
+        UK
+      </button>
+      <button onclick="filterByCountry('Australia')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-200" data-country="Australia">
+        Australia
+      </button>
+      <button onclick="filterByCountry('UAE')" class="country-filter px-4 sm:px-6 py-3 rounded-xl text-sm font-medium transition-all duration-300 shadow-md hover:shadow-lg transform hover:-translate-y-1 bg-white text-gray-700 hover:bg-gray-50 border border-gray-200" data-country="UAE">
+        UAE
+      </button>
+    </div>
 
             <!-- Job Cards Grid -->
             <div id="jobs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
