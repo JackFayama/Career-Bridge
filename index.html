@@ -260,6 +260,23 @@
 <!-- Spacer for fixed filters + extra gap before job cards -->
 <div class="h-[80px] sm:h-[90px]"></div>
 
+    <!-- Fixed Search Bar -->
+<div class="fixed top-[128px] left-0 right-0 bg-white z-40 border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+    <div class="flex items-center space-x-2">
+      <input id="job-search" type="text" placeholder="Search jobs..."
+        class="w-full sm:w-auto flex-1 px-4 py-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-400 text-sm">
+      <button onclick="performSearch()" class="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-sm font-medium">
+        Search
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- Spacer to account for fixed filters + search -->
+<div class="h-[128px] sm:h-[140px]"></div>
+
+
             <!-- Job Cards Grid -->
             <div id="jobs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
                 <!-- Jobs will be populated by JavaScript -->
@@ -4479,5 +4496,31 @@
         // Initialize the application when the page loads
         document.addEventListener('DOMContentLoaded', init);
     </script>
+    <script>
+function performSearch() {
+  const input = document.getElementById('job-search').value.toLowerCase();
+  const jobCards = Array.from(document.querySelectorAll('.job-card'));
+  
+  // Separate matches and non-matches
+  const matches = [];
+  const nonMatches = [];
+
+  jobCards.forEach(card => {
+    const text = card.innerText.toLowerCase();
+    if (text.includes(input)) {
+      matches.push(card);
+    } else {
+      nonMatches.push(card);
+    }
+  });
+
+  // Append matches first, then the rest
+  const container = document.querySelector('#job-listings'); // Make sure your job cards live inside this
+  container.innerHTML = '';
+  matches.forEach(c => container.appendChild(c));
+  nonMatches.forEach(c => container.appendChild(c));
+}
+</script>
+
 </body>
 </html>
