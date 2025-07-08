@@ -778,6 +778,11 @@
         </div>
     </div>
 
+    <button id="install-button"
+        class="fixed bottom-6 right-6 bg-gradient-to-r from-blue-600 to-purple-600 text-white px-5 py-3 rounded-xl shadow-xl hidden">
+  📲 Install App
+</button>
+
     <script>
         // EmailJS Configuration
         const EMAILJS_SERVICE_ID = 'service_t8vherg';
@@ -4740,6 +4745,33 @@
       .then(reg => console.log('✅ Service Worker registered:', reg))
       .catch(err => console.error('❌ Service Worker error:', err));
   }
+</script>
+<script>
+  let deferredPrompt;
+
+  window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent default prompt
+    e.preventDefault();
+    deferredPrompt = e;
+
+    // Optionally show a custom install button
+    const installBtn = document.getElementById('install-button');
+    if (installBtn) {
+      installBtn.style.display = 'block';
+      installBtn.addEventListener('click', () => {
+        installBtn.style.display = 'none';
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then(choiceResult => {
+          if (choiceResult.outcome === 'accepted') {
+            console.log('✅ User accepted install prompt');
+          } else {
+            console.log('❌ User dismissed install prompt');
+          }
+          deferredPrompt = null;
+        });
+      });
+    }
+  });
 </script>
 
 </body>
