@@ -224,31 +224,32 @@
     </div>
 
    <!-- Fixed Country Filters Below Header -->
-<div class="fixed top-[72px] left-0 right-0 bg-white/90 backdrop-blur-md z-40 shadow-sm border-b border-white/30">
+<!-- Flat Fixed Country Filters (No transition, no shadow, no blur) -->
+<div class="fixed top-[72px] left-0 right-0 bg-white z-40 border-b border-gray-200">
   <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 overflow-x-auto">
     <div class="flex space-x-2 sm:space-x-4 py-2 sm:py-3 whitespace-nowrap text-sm sm:text-base font-medium">
       <button onclick="filterByCountry('All')"
-        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl transition-all duration-300 shadow hover:shadow-lg bg-gradient-to-r from-blue-600 to-purple-600 text-white"
+        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-gradient-to-r from-blue-600 to-purple-600 text-white"
         data-country="All">
         🌍 All Countries
       </button>
       <button onclick="filterByCountry('USA')"
-        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-white bg-opacity-90 text-gray-700 hover:bg-opacity-100 border border-gray-200"
+        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300"
         data-country="USA">
         🇺🇸 USA
       </button>
       <button onclick="filterByCountry('UK')"
-        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-white bg-opacity-90 text-gray-700 hover:bg-opacity-100 border border-gray-200"
+        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300"
         data-country="UK">
         🇬🇧 UK
       </button>
       <button onclick="filterByCountry('Australia')"
-        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-white bg-opacity-90 text-gray-700 hover:bg-opacity-100 border border-gray-200"
+        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300"
         data-country="Australia">
         🇦🇺 Australia
       </button>
       <button onclick="filterByCountry('UAE')"
-        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-white bg-opacity-90 text-gray-700 hover:bg-opacity-100 border border-gray-200"
+        class="country-filter px-4 sm:px-6 py-2 sm:py-3 rounded-xl bg-gray-100 text-gray-700 hover:bg-gray-200 border border-gray-300"
         data-country="UAE">
         🇦🇪 UAE
       </button>
@@ -256,8 +257,8 @@
   </div>
 </div>
 
-<!-- Spacer to push content below fixed filters -->
-<div class="h-[56px] sm:h-[64px]"></div>
+<!-- Spacer for fixed filters + extra gap before job cards -->
+<div class="h-[80px] sm:h-[90px]"></div>
 
             <!-- Job Cards Grid -->
             <div id="jobs-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
