@@ -130,51 +130,47 @@
             scrollbar-width: none;
         }
     </style>
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+        }
+    </style>
 </head>
 <body class="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
 
-<!-- Professional Amazon-Style Header -->
-<header class="bg-white/20 shadow-md backdrop-blur-md rounded-b-xl overflow-hidden" style="position: relative; z-index: 30;">
-    <div class="absolute inset-0 bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 opacity-90"></div>
-
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex items-center justify-between">
+<!-- Clean Amazon-Style Header -->
+<header class="bg-gradient-to-r from-indigo-600 via-purple-600 to-blue-600 shadow-md text-white" style="position: relative; z-index: 30;">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         
-        <!-- Custom Logo -->
-        <div class="text-white leading-tight">
-            <div class="text-xl sm:text-2xl font-bold tracking-wide relative">
-                <div class="relative">
-                    <span class="block">Carrer</span>
-                    <span class="block ml-[1.65rem]">Bridge</span> <!-- "B" starts below the first "R" -->
-                </div>
-            </div>
-            <div class="text-xs sm:text-sm italic opacity-80 mt-1">
-                Empowering Global Careers
-            </div>
+        <!-- Left: Logo Text -->
+        <div class="text-lg sm:text-xl font-semibold tracking-tight">
+            Career Bridge
         </div>
 
-        <!-- Right-side buttons -->
+        <!-- Right: Sign In / User -->
         <div class="flex items-center space-x-4">
-            <!-- User Icon -->
+            <!-- User Icon (Hidden by default) -->
             <div id="user-section" class="hidden">
-                <div class="relative">
-                    <button onclick="toggleUserMenu()" id="user-menu-btn"
-                        class="w-10 h-10 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-all duration-300 shadow-lg">
-                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                        </svg>
-                    </button>
-                </div>
+                <button onclick="toggleUserMenu()" id="user-menu-btn"
+                    class="w-10 h-10 bg-white/20 hover:bg-white/30 text-white rounded-full flex items-center justify-center transition-all duration-300 shadow">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                    </svg>
+                </button>
             </div>
 
-            <!-- Sign In -->
+            <!-- Sign In Button -->
             <button onclick="showAuthModal()" id="signin-btn"
-                class="bg-white/20 hover:bg-white/30 text-white px-5 py-2 rounded-xl text-sm font-medium transition-all duration-300 shadow-md border border-white/30">
+                class="bg-white/20 hover:bg-white/30 text-white px-5 py-2 rounded-md text-sm font-medium transition-all duration-300 border border-white/30">
                 Sign In
             </button>
         </div>
     </div>
 </header>
+
     <!-- User Dropdown - Positioned outside header for proper z-index -->
     <div id="user-dropdown" class="hidden user-dropdown bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden backdrop-filter backdrop-blur-lg" style="width: 224px;">
         <div class="py-2">
