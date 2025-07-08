@@ -7,6 +7,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Favicon -->
+<link rel="icon" type="image/png" href="icon-192.png" sizes="192x192">
+
+<!-- Web App Manifest -->
+<link rel="manifest" href="manifest.json" />
+
+<!-- Theme Colors for Status Bar -->
+<meta name="theme-color" content="#4f46e5" />
+<meta name="background-color" content="#4f46e5" />
+
+<!-- iOS Support -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="apple-touch-icon" href="icon-192.png" />
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600&display=swap" rel="stylesheet">
     <style>
         * {
             font-family: 'Inter', 'Helvetica Neue', Helvetica, Arial, sans-serif;
@@ -4716,6 +4734,13 @@
         // Initialize the application when the page loads
         document.addEventListener('DOMContentLoaded', init);
     </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+      .then(reg => console.log('✅ Service Worker registered:', reg))
+      .catch(err => console.error('❌ Service Worker error:', err));
+  }
+</script>
 
 </body>
 </html>
