@@ -4497,28 +4497,165 @@
         document.addEventListener('DOMContentLoaded', init);
     </script>
     <script>
-function performSearch() {
-  const input = document.getElementById('job-search').value.toLowerCase();
-  const jobCards = Array.from(document.querySelectorAll('.job-card'));
+        // Search functionality that brings matching items to the top
+function initializeSearch() {
+  const searchInput = document.getElementById('searchInput');
+  const searchContainer = document.getElementById('searchContainer');
   
-  // Separate matches and non-matches
-  const matches = [];
-  const nonMatches = [];
+  if (!searchInput || !searchContainer) {
+    console.error('Search input or container not found. Make sure you have elements with IDs "searchInput" and "searchContainer"');
+    return;
+  }
 
-  jobCards.forEach(card => {
-    const text = card.innerText.toLowerCase();
-    if (text.includes(input)) {
-      matches.push(card);
-    } else {
-      nonMatches.push(card);
+  // Store original order of items
+  const originalItems = Array.from(searchContainer.children);
+  
+  // Search function
+  function performSearch() {
+    const searchTerm = searchInput.value.toLowerCase().trim();
+    
+    // Get all items to search through
+    const items = Array.from(searchContainer.children);
+    
+    if (searchTerm === '') {
+      // If search is empty, restore original order
+      items.forEach(item => {
+        item.style.display = '';
+        item.classList.remove('search-highlight');
+      });
+      
+      // Restore original order
+      originalItems.forEach(item => {
+        searchContainer.appendChild(item);
+      });
+      return;
     }
-  });
+    
+    // Filter and score items based on search term
+    const scoredItems = items.map(item => {
+      const text = item.textContent.toLowerCase();
+      const score = calculateScore(text, searchTerm);
+      return { element: item, score: score, text: text };
+    }).filter(item => item.score > 0);
+    
+    // Sort by score (highest first)
+    scoredItems.sort((a, b) => b.score - a.score);
+    
+    // Hide all items first
+    items.forEach(item => {
+      item.style.display = 'none';
+      item.classList.remove('search-highlight');
+    });
+    
+    // Show and reorder matching items
+    scoredItems.forEach(item => {
+      item.element.style.display = '';
+      item.element.classList.add('search-highlight');
+      searchContainer.appendChild(item.element);
+    });
+    
+    // Highlight search terms in visible items
+    highlightSearchTerms(scoredItems, searchTerm);
+  }
+  
+  // Calculate search score
+  function calculateScore(text, searchTerm) {
+    if (!text.includes(searchTerm)) return 0;
+    
+    let score = 0;
+    
+    // Exact match gets highest score
+    if (text === searchTerm) score += 100;
+    
+    // Starts with search term
+    if (text.startsWith(searchTerm)) score += 50;
+    
+    // Contains search term
+    if (text.includes(searchTerm)) score += 20;
+    
+    // Calculate character match percentage
+    const matchCount = countMatches(text, searchTerm);
+    score += matchCount * 2;
+    
+    return score;
+  }
+  
+  // Count character matches
+  function countMatches(text, searchTerm) {
+    let matches = 0;
+    for (let char of searchTerm) {
+      if (text.includes(char)) matches++;
+    }
+    return matches;
+  }
+  
+  // Highlight search terms in text
+  function highlightSearchTerms(items, searchTerm) {
+    items.forEach(item => {
+      const element = item.element;
+      const originalText = element.textContent;
+      
+      // Create highlighted text
+      const regex = new RegExp(`(${escapeRegExp(searchTerm)})`, 'gi');
+      const highlightedText = originalText.replace(regex, '<mark>$1</mark>');
+      
+      // Only update if there are actual matches
+      if (highlightedText !== originalText) {
+        element.innerHTML = highlightedText;
+      }
+    });
+  }
+  
+  // Escape special regex characters
+  function escapeRegExp(string) {
+    return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  }
+  
+  // Add event listeners
+  searchInput.addEventListener('input', performSearch);
+  searchInput.addEventListener('keyup', performSearch);
+  
+  // Optional: Add clear button functionality
+  const clearButton = document.getElementById('clearSearch');
+  if (clearButton) {
+    clearButton.addEventListener('click', () => {
+      searchInput.value = '';
+      performSearch();
+    });
+  }
+}
 
-  // Append matches first, then the rest
-  const container = document.querySelector('#job-listings'); // Make sure your job cards live inside this
-  container.innerHTML = '';
-  matches.forEach(c => container.appendChild(c));
-  nonMatches.forEach(c => container.appendChild(c));
+// Alternative: Simple search function for basic filtering
+function simpleSearch() {
+  const searchInput = document.getElementById('searchInput');
+  const searchContainer = document.getElementById('searchContainer');
+  
+  if (!searchInput || !searchContainer) return;
+  
+  searchInput.addEventListener('input', function() {
+    const searchTerm = this.value.toLowerCase();
+    const items = searchContainer.children;
+    
+    Array.from(items).forEach(item => {
+      const text = item.textContent.toLowerCase();
+      if (text.includes(searchTerm) || searchTerm === '') {
+        item.style.display = '';
+        item.style.order = text.indexOf(searchTerm) === 0 ? '1' : '2';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+}
+
+// Initialize search when DOM is loaded
+document.addEventListener('DOMContentLoaded', function() {
+  initializeSearch();
+});
+
+// Export functions for use in other files
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = { initializeSearch, simpleSearch };
 }
 </script>
 
