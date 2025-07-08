@@ -1,0 +1,22 @@
+{
+  "name": "Career Bridge",
+  "short_name": "Cbridge",
+  "description": "Empowering Global Careers – Find jobs, apply easily, and connect with employers worldwide.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#4f46e5",
+  "theme_color": "#4f46e5",
+  "icons": [
+    {
+      "src": "icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
